@@ -2,7 +2,7 @@ import { DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequ
 import db from "../database/database.config";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-    declare id: number;
+    declare id?: number;
     declare username: string;
     declare email: string;
     declare password: string;
