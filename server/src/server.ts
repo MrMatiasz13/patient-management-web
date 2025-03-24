@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000;
 
 const startServer = async () => {
     try {
-        await db.sync();
+        await db.sync({force: true});
         console.log('Database connected.');
 
         app.listen(port, () => {
