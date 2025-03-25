@@ -1,14 +1,14 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import db from "../database/database.config";
 
-class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+class SequelizeUser extends Model<InferAttributes<SequelizeUser>, InferCreationAttributes<SequelizeUser>> {
     declare id?: number;
     declare username: string;
     declare email: string;
     declare password: string;
 }
 
-User.init(
+SequelizeUser.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -37,4 +37,4 @@ User.init(
     }
 );
 
-export default User;
+export default SequelizeUser;
