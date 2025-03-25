@@ -1,5 +1,6 @@
 import { hash } from "bcrypt-ts";
 import User from "../models/user";
+import SequelizeUser from "../models/user";
 
 class UserService {
     async createUser(username: string, email: string, password: string) {
@@ -14,6 +15,11 @@ class UserService {
         });
 
         return newUser;
+    }
+
+    async getUserByEmail(email: string): Promise<SequelizeUser | null> {
+        const user = SequelizeUser.findOne({ where: {email} });
+        return user || null;
     }
 }
 
