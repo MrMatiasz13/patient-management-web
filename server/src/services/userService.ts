@@ -3,8 +3,8 @@ import SequelizeUser from "../models/user";
 
 class UserService {
     async createUser(username: string, email: string, password: string) {
-        const existingUser = await SequelizeUser.findOne({where: { email }});
-        if(existingUser) throw new Error('User already exist');
+        const user = await this.getUserByEmail(email);
+        if(user != null) throw new Error('User already exist');
 
         const hashedPassword = await hash(password, 10);
         const newUser = await SequelizeUser.create({

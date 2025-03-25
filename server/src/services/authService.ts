@@ -1,13 +1,24 @@
+import bcrypt from "bcrypt-ts";
 import UserService from "./userService";
 
 class AuthService {
-    private userService: UserService;
+    constructor (
+        private readonly userService: UserService
+    ) {}
 
-    constructor (userService: UserService) {
-        this.userService = userService;
+    async login(email: string, password: string) {
+        const user = await this.userService.getUserByEmail(email);
+        if (user == null) throw new Error("Invalid credentials.");
+
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+        if (isPasswordMatch) {
+            console.log("Login successful.");
+            return { success: true, message: "Login successful" };
+        } else {
+            throw new Error("Invalid credentials.");
+        }
     }
-
-    async login(email: string, password: string) {}
 }
 
 export default AuthService;
