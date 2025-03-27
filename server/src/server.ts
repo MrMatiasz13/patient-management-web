@@ -1,19 +1,17 @@
-import app from "./app";
 import dotenv from "dotenv";
-import db from "./database/database.config";
-import { PORT } from "./constants/configConstants";
-
 dotenv.config();
 
-const port = PORT;
+import app from "./app";
+import db from "./database/database.config";
+import { PORT } from "./constants/configConstants";
 
 const startServer = async () => {
     try {
         await db.sync({force: false});
         console.log('Database connected.');
 
-        app.listen(port, () => {
-            console.log('Server is running on: ', port);
+        app.listen(PORT, () => {
+            console.log('Server is running on: ', PORT);
         });
     } catch (err) {
         console.error('Failed to sync db: ', err);
@@ -22,4 +20,3 @@ const startServer = async () => {
 };
 
 startServer();
-
