@@ -1,10 +1,11 @@
 import app from "./app";
 import dotenv from "dotenv";
 import db from "./database/database.config";
+import { PORT } from "./constants/configConstants";
 
 dotenv.config();
 
-const port = process.env.PORT || 5000;
+const port = PORT;
 
 const startServer = async () => {
     try {

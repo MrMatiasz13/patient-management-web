@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import asyncHandler from "express-async-handler"; 
 import { authService } from "../services";
+import asyncHandler from "express-async-handler"; 
 
 const login = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
@@ -10,8 +10,8 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
         return;
     }
 
-    await authService.login(email, password);
-    res.status(201).json({ message: "Login successful" });
+    const token = await authService.login(email, password);
+    res.status(200).json({ message: "Login successful", token: token });
 });
 
 export default login;
