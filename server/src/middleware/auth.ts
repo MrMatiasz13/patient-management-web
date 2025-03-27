@@ -3,13 +3,13 @@ import { SECRET_KEY } from "../constants/configConstants";
 import jwt from "jsonwebtoken";
 
 interface AuthRequest extends Request {
-    user?: { id: string; username: string; email: string };
+    user?: { id: number; username: string; email: string };
 }
 
-const veryfiToken = async(req: AuthRequest, res: Response, next: NextFunction) => {
-    const token = req.header("authorization");
+const verifyToken = async(req: AuthRequest, res: Response, next: NextFunction) => {
+    const token = req.header("Authorization");
     if (!token) {
-        res.status(401).json({ error: "Access denied!" });
+        res.status(401).json({ error: "Access denied." });
         return;
     }
 
@@ -17,12 +17,12 @@ const veryfiToken = async(req: AuthRequest, res: Response, next: NextFunction) =
         const secretKey = SECRET_KEY;
         if (!secretKey) throw new Error("SECRET_KEY is undefinded.");
 
-        const decodedUser = jwt.verify(token, secretKey) as { id: string, username: string, email: string };
+        const decodedUser = jwt.verify(token, secretKey) as { id: number, username: string, email: string };
         req.user = decodedUser;
         next();
     } catch(err) {
-        return res.status(403).json({ message: "Access denied. Invalid or expired token." });
+        res.status(403).json({ message: "Access denied. Invalid or expired token." });
     }
 };
 
-export default veryfiToken;
+export default verifyToken;
