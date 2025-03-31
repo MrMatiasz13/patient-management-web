@@ -3,13 +3,13 @@ import { patientService } from "../services";
 import asyncHandler from "express-async-handler"; 
 import PatientDto from "../dtos/patientDto";
 
-const getAllPatients = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+const getAllPatients = asyncHandler(async (req: Request, res: Response) => {
     const patients = await patientService.getAllPatients();
 
     res.status(200).json({ patients: patients});
 });
 
-const getPatient = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+const getPatient = asyncHandler(async (req: Request, res: Response) => {
     const id = req.params.id;
 
     const patient = await patientService.getPatientById(Number(id));
@@ -21,7 +21,7 @@ const getPatient = asyncHandler(async (req: Request, res: Response, next: NextFu
     res.status(200).json(patient);
 });
 
-const createPatient = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+const createPatient = asyncHandler(async (req: Request, res: Response) => {
     const dto: PatientDto = req.body;
     if (!dto || !dto.name || !dto.surename) {
         res.status(400).json({ message: "Patient data is missing or incomplete." });
