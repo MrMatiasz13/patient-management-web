@@ -7,7 +7,7 @@ class PatientService {
     }
 
     async getPatientById(id: number): Promise<SequelizePatient | null> {
-        return await SequelizePatient.findOne({ where: { id } });
+        return await SequelizePatient.findOne({ where: { id: id} });
     }
 
     async createPatient(data: PatientDto): Promise<SequelizePatient> {

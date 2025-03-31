@@ -3,6 +3,24 @@ import { patientService } from "../services";
 import asyncHandler from "express-async-handler"; 
 import PatientDto from "../dtos/patientDto";
 
+const getAllPatients = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const patients = await patientService.getAllPatients();
+
+    res.status(200).json({ patients: patients});
+});
+
+const getPatient = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+
+    const patient = await patientService.getPatientById(Number(id));
+    if (!patient) {
+        res.status(404).json({ message: "Patient not found" });
+        return;
+    }
+
+    res.status(200).json(patient);
+});
+
 const createPatient = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const dto: PatientDto = req.body;
     if (!dto || !dto.name || !dto.surename) {
@@ -15,4 +33,4 @@ const createPatient = asyncHandler(async (req: Request, res: Response, next: Nex
     res.status(201).json({ message: "Successfully created patient.", patient: patient });
 });
 
-export default createPatient;
+export { getAllPatients, getPatient, createPatient };
