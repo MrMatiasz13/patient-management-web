@@ -5,7 +5,6 @@ class SequelizePatient extends Model<InferAttributes<SequelizePatient>, InferCre
     declare id?: number;
     declare name: string;
     declare surename: string;
-    declare payment_status: string;
 }
 
 SequelizePatient.init(
@@ -23,10 +22,6 @@ SequelizePatient.init(
         surename: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        payment_status: {
-            type: DataTypes.STRING,
-            allowNull: true,
         }
     }, 
     {
@@ -35,3 +30,5 @@ SequelizePatient.init(
         tableName: 'patients'
     }
 );
+
+export default SequelizePatient;

@@ -14,10 +14,9 @@ const verifyToken = async(req: AuthRequest, res: Response, next: NextFunction) =
     }
 
     try {
-        const secretKey = SECRET_KEY;
-        if (!secretKey) throw new Error("SECRET_KEY is undefinded.");
+        if (!SECRET_KEY) throw new Error("SECRET_KEY is undefinded.");
 
-        const decodedUser = jwt.verify(token, secretKey) as { id: number, username: string, email: string };
+        const decodedUser = jwt.verify(token, SECRET_KEY) as { id: number, username: string, email: string };
         req.user = decodedUser;
         next();
     } catch(err) {
