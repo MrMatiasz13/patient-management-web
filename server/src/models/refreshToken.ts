@@ -27,7 +27,7 @@ SequelizeRefreshToken.init(
     {
         sequelize: db,
         timestamps: true,
-        tableName: 'users'
+        tableName: 'refresh_tokens'
     }
 );
 

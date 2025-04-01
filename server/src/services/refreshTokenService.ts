@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt-ts";
 import jwt from 'jsonwebtoken';
 import { REFRESH_TOKEN_EXPIRATION, REFRESH_TOKEN_SECRET } from '../constants/configConstants';
 import SequelizeRefreshToken from '../models/refreshToken';
@@ -12,9 +13,11 @@ class RefreshTokenService {
                 { expiresIn: REFRESH_TOKEN_EXPIRATION }
             );
 
+            const hashedToken = await bcrypt.hash(refreshToken, 10);
+
             await SequelizeRefreshToken.create({
                 userId: userId,
-                token: refreshToken
+                token: hashedToken
             });
 
             return refreshToken;

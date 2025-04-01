@@ -4,9 +4,9 @@ import RefreshTokenService from "./refreshTokenService";
 import UserService from "./userService";
 
 const userService = new UserService();
-const authService = new AuthService(userService);
 const patientService = new PatientService();
 const refreshTokenService = new RefreshTokenService();
+const authService = new AuthService(userService, refreshTokenService);
 
 export { 
     userService, 

@@ -2,29 +2,34 @@ import bcrypt from "bcrypt-ts";
 import UserService from "./userService";
 import jwt from 'jsonwebtoken';
 import { SECRET_KEY, TOKEN_EXPIRATION } from "../constants/configConstants";
+import RefreshTokenService from "./refreshTokenService";
 
 class AuthService {
     constructor (
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly refreshTokenService: RefreshTokenService
     ) {}
 
-    async login(email: string, password: string): Promise<string> {
+    async login(email: string, password: string) {
         const user = await this.userService.getUserByEmail(email);
         if (user == null) throw new Error("Invalid credentials.");
 
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) throw new Error("Invalid credentials.");
 
-        if (!SECRET_KEY) throw new Error("SECRET_KEY is undefined");    
+        const refreshToken = await this.refreshTokenService.createRefreshToken(user.id!);
+        const accessToken = await this.generateAccessToken(user.id!);
+
+        return { refreshToken, accessToken };
+    }
+
+    async generateAccessToken(userId: number): Promise<string> {
+        if (!SECRET_KEY) throw new Error("SECRET_KEY is undefined");  
         
-        const tokenExpiration = TOKEN_EXPIRATION;
-
-        const token = jwt.sign({ id: user.id, name: user.username, email: user.email }, 
+        return jwt.sign({ id: userId }, 
             SECRET_KEY, 
-            { expiresIn: tokenExpiration }
+            { expiresIn: TOKEN_EXPIRATION }
         );
-
-        return token;
     }
 }
 
