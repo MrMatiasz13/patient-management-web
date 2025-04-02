@@ -8,7 +8,7 @@ class RefreshTokenService {
         if (!REFRESH_TOKEN_SECRET) throw new Error("REFRESH_TOKEN_SECRET is undefined");
 
         try {
-            const refreshToken = jwt.sign({ id: userId }, 
+            const refreshToken = jwt.sign({ userId: userId }, 
                 REFRESH_TOKEN_SECRET, 
                 { expiresIn: REFRESH_TOKEN_EXPIRATION }
             );
@@ -24,13 +24,13 @@ class RefreshTokenService {
         }
     }
 
-    async verifyRefreshToken(token: string): Promise<boolean> {
+    async verifyRefreshToken(token: string): Promise<JwtPayload | null> {
         try {
-            jwt.verify(token, REFRESH_TOKEN_SECRET!);
-            return true;
+            const decoded = jwt.verify(token, REFRESH_TOKEN_SECRET!) as JwtPayload;
+            return decoded;
         } catch (err) {
             console.log(err);
-            return false;
+            return null;
         }
     }
 }

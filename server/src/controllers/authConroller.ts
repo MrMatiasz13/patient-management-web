@@ -14,4 +14,11 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
     res.status(200).json({ message: "Login successful", token: token });
 });
 
-export default login;
+const refreshAccessToken = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const { refreshToken } = req.body;
+
+    const token = await authService.generateAccessToken(refreshToken);
+    res.status(200).json({ token: token, userID: refreshToken.userId });
+});
+
+export { login, refreshAccessToken };
