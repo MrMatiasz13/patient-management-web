@@ -13,12 +13,20 @@ class RefreshTokenService {
                 { expiresIn: REFRESH_TOKEN_EXPIRATION }
             );
 
-            await SequelizeRefreshToken.create({
-                userId: userId,
-                token: refreshToken
-            });
+            const existingToken = await SequelizeRefreshToken.findOne({ where: { userId: userId } });
+            if (!existingToken) {
+                await SequelizeRefreshToken.create({
+                    userId: userId,
+                    token: refreshToken
+                });
+    
+                return refreshToken;
+            }
 
+            await existingToken.update({ token: refreshToken });
+            
             return refreshToken;
+
         } catch (err) {
             throw new Error(`Failed to create refresh token: ${err}`);
         }
