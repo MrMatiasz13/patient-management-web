@@ -1,9 +1,9 @@
-import AuthPage from "./pages/AuthPage";
+import AuthScreen from "./pages/AuthScreen";
 
 function App() {
   return (
     <>
-      <AuthPage />
+      <AuthScreen />
     </>
   );
 }
