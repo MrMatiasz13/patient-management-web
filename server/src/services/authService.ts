@@ -21,7 +21,7 @@ class AuthService {
         const refreshToken = await this.refreshTokenService.createRefreshToken(user.id!);
         const accessToken = await this.generateAccessToken(refreshToken);
 
-        return { accessToken };
+        return { user, accessToken };
     }
 
     async generateAccessToken(refreshToken: string): Promise<string> {

@@ -12,8 +12,16 @@ const login = (async (req: Request, res: Response, next: NextFunction) => {
             return;
         }
 
-        const token = await authService.login(email, password);
-        res.status(200).json({ message: "Login successful", token: token });
+        const { user, accessToken } = await authService.login(email, password);
+        res.status(200).json({
+             message: "Login successful", 
+             token: accessToken, 
+             user: {
+                id: user.id,
+                name: user.username,
+                email: user.email,
+             }
+            });
     } catch (err) {
         if (err instanceof AuthError) {
             console.log(err);
