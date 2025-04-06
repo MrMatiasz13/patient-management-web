@@ -3,6 +3,7 @@ import UserService from "./userService";
 import jwt from 'jsonwebtoken';
 import RefreshTokenService from "./refreshTokenService";
 import { SECRET_KEY, TOKEN_EXPIRATION } from "../constants/configConstants";
+import { AuthError } from "../utils/errors/authError";
 
 class AuthService {
     constructor(
@@ -12,15 +13,15 @@ class AuthService {
 
     async login(email: string, password: string) {
         const user = await this.userService.getUserByEmail(email);
-        if (user == null) throw new Error("Invalid credentials.");
+        if (user == null) throw new AuthError("Invalid credentials.");
 
         const isPasswordMatch = await bcrypt.compare(password, user.password);
-        if (!isPasswordMatch) throw new Error("Invalid credentials.");
+        if (!isPasswordMatch) throw new AuthError("Invalid credentials.");
 
         const refreshToken = await this.refreshTokenService.createRefreshToken(user.id!);
         const accessToken = await this.generateAccessToken(refreshToken);
 
-        return { refreshToken, accessToken };
+        return { accessToken };
     }
 
     async generateAccessToken(refreshToken: string): Promise<string> {

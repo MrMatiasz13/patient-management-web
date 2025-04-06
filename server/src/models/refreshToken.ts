@@ -33,3 +33,9 @@ SequelizeRefreshToken.init(
 
 export default SequelizeRefreshToken;
 
+
+export const clearRefreshTokens = async () => {
+    SequelizeRefreshToken.destroy({
+        where: {},
+    });
+};

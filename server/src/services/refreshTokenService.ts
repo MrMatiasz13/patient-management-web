@@ -1,5 +1,4 @@
-import bcrypt from "bcrypt-ts";
-import jwt, { decode, JwtPayload } from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { REFRESH_TOKEN_EXPIRATION, REFRESH_TOKEN_SECRET } from '../constants/configConstants';
 import SequelizeRefreshToken from '../models/refreshToken';
 
