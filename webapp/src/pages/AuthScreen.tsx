@@ -1,17 +1,22 @@
 import { FaEnvelope, FaLock } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
-import axiosClient from "../api/axiosClient";
 
 function AuthScreen() {
+  const { login, user } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const { login } = useAuth(axiosClient);
 
   const handleLogin = async () => {
     await login(email, password);
   };
+
+  useEffect(() => {
+    if (user) {
+      console.log("Logged in as: ", user.username);
+    }
+  }, [user]);
 
   return (
     <div className="flex justify-center items-center h-screen bg-gradient-to-b from-[#1e3a8a] to-purple-800">

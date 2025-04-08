@@ -1,35 +1,40 @@
 import { useState } from "react";
-import { User } from "../utils/types/user";
 import AuthService from "../services/authService";
-import { AxiosError, AxiosInstance } from "axios";
+import axiosClient from "../api/axiosClient";
+import { AxiosError } from "axios";
+import { User } from "../utils/types/user";
 
-function useAuth(axiosClient: AxiosInstance) {
-    const [user, setUser] = useState<User | null>();
-    const [loading, setLoading] = useState<boolean>(false);
+const authService = new AuthService(axiosClient);
+
+function useAuth() {
+    const [user, setUser] = useState<User>();
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const authService = new AuthService(axiosClient);
 
     const login = async (email: string, password: string) => {
         setLoading(true);
         setError(null);
         try {
-            const data = await authService.login(email, password) as User;
-            if (data) setUser(data);
-
-            console.log(data);
-        } catch (err) {
-            if (err instanceof AxiosError) {
-                setError(err.response?.data?.message || err.message);
-                return;
+            const data = await authService.login(email, password);
+            const user: User = {
+                id: data.user.id,
+                username: data.user.name,
+                email: data.user.email
             }
-
-            setError("Unexpected error occurred");
-            console.log(error);
+            setUser(user);
+        } catch(err) {
+            if (err instanceof AxiosError) {
+                setError(err.message);
+                console.log(err.message);
+            } else {
+                setError("Unexpected error occured.");
+            }
         } finally {
             setLoading(false);
         }
     };
+
 
     return {
         user,
