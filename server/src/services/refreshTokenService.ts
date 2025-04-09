@@ -40,6 +40,13 @@ class RefreshTokenService {
             return null;
         }
     }
+
+    async getRefreshToken(userId: number): Promise<string> {
+        const record = await SequelizeRefreshToken.findOne({ where: { userId: userId } });
+        if (!record) throw new Error("There is no token with this user id.");
+
+        return record.token;
+    }
 }
 
 export default RefreshTokenService;

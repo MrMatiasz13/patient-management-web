@@ -18,14 +18,16 @@ class AuthService {
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) throw new AuthError("Invalid credentials.");
 
-        const refreshToken = await this.refreshTokenService.createRefreshToken(user.id!);
-        const accessToken = await this.generateAccessToken(refreshToken);
+        await this.refreshTokenService.createRefreshToken(user.id!);
+        const accessToken = await this.generateAccessToken(user.id!);
 
         return { user, accessToken };
     }
 
-    async generateAccessToken(refreshToken: string): Promise<string> {
+    async generateAccessToken(userId: number): Promise<string> {
         if (!SECRET_KEY) throw new Error("SECRET_KEY is undefined");
+
+        const refreshToken = await this.refreshTokenService.getRefreshToken(userId);
 
         const decodedToken = await this.refreshTokenService.verifyRefreshToken(refreshToken);
         if (!decodedToken || !decodedToken.userId) {
