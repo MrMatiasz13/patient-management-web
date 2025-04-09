@@ -4,6 +4,7 @@ dotenv.config();
 import app from "./app";
 import db from "./database/database.config";
 import { PORT } from "./constants/configConstants";
+import SequelizeUser from "./models/user";
 
 const startServer = async () => {
     try {

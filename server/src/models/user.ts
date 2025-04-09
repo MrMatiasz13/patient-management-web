@@ -3,7 +3,8 @@ import db from "../database/database.config";
 
 class SequelizeUser extends Model<InferAttributes<SequelizeUser>, InferCreationAttributes<SequelizeUser>> {
     declare id?: number;
-    declare username: string;
+    declare name: string;
+    declare surename: string;
     declare email: string;
     declare password: string;
 }
@@ -16,7 +17,11 @@ SequelizeUser.init(
             allowNull: false,
             autoIncrement: true
         },
-        username: {
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        surename: {
             type: DataTypes.STRING,
             allowNull: false
         },

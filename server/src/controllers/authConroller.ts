@@ -18,7 +18,8 @@ const login = (async (req: Request, res: Response, next: NextFunction) => {
              token: accessToken, 
              user: {
                 id: user.id,
-                name: user.username,
+                name: user.name,
+                surename: user.surename,
                 email: user.email,
              }
             });

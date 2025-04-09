@@ -2,13 +2,14 @@ import { hash } from "bcrypt-ts";
 import SequelizeUser from "../models/user";
 
 class UserService {
-    async createUser(username: string, email: string, password: string) {
+    async createUser(name: string, surename: string, email: string, password: string) {
         const user = await this.getUserByEmail(email);
         if(user != null) throw new Error('User already exist');
 
         const hashedPassword = await hash(password, 10);
         const newUser = await SequelizeUser.create({
-            username: username,
+            name: name,
+            surename: surename,
             email: email,
             password: hashedPassword
         });
