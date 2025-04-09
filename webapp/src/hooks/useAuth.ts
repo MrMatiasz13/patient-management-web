@@ -3,11 +3,12 @@ import AuthService from "../services/authService";
 import axiosClient from "../api/axiosClient";
 import { AxiosError } from "axios";
 import { User } from "../utils/types/user";
+import { useUser } from "./useUser";
 
 const authService = new AuthService(axiosClient);
 
-function useAuth() {
-    const [user, setUser] = useState<User>();
+export function useAuth() {
+    const { setUser } = useUser();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -37,11 +38,8 @@ function useAuth() {
 
 
     return {
-        user,
         loading,
         error,
         login,
     };
 }
-
-export default useAuth;

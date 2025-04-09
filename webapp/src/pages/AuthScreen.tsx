@@ -1,9 +1,13 @@
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router";
+import { useUser } from "../hooks/useUser";
 
 function AuthScreen() {
-  const { login, user } = useAuth();
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const { user } = useUser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +18,7 @@ function AuthScreen() {
 
   useEffect(() => {
     if (user) {
+      navigate("/");
       console.log("Logged in as: ", user.username);
     }
   }, [user]);
@@ -34,7 +39,7 @@ function AuthScreen() {
               id="userEmail"
               type="text"
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Login"
+              placeholder="Email"
               className={styles.input}
             />
           </div>
@@ -56,7 +61,7 @@ function AuthScreen() {
               className="bg-purple-800 hover:bg-purple-950 text-white font-bold py-3 px-6 rounded-sm"
               onClick={handleLogin}
             >
-              Zaloguj
+              Zaloguj się
             </button>
           </div>
         </form>

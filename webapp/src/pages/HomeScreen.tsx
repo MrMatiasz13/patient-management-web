@@ -1,5 +1,9 @@
+import { useUser } from "../hooks/useUser";
+
 function HomeScreen() {
-  return <div>Hello World</div>;
+  const { user } = useUser();
+
+  return <div>Hello {user?.username}</div>;
 }
 
 export default HomeScreen;
