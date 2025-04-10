@@ -17,6 +17,11 @@ class UserService {
         return newUser;
     }
 
+    async getUserById(userId: number): Promise<SequelizeUser | null> {
+        const user = SequelizeUser.findOne({ where: { id: userId } });
+        return user || null;
+    }
+
     async getUserByEmail(email: string): Promise<SequelizeUser | null> {
         const user = SequelizeUser.findOne({ where: {email} });
         return user || null;

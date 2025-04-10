@@ -3,7 +3,7 @@ import { authService } from "../services";
 import asyncHandler from "express-async-handler"; 
 import { AuthError } from "../utils/errors/authError";
 
-const login = (async (req: Request, res: Response, next: NextFunction) => {
+const login = (async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
 
@@ -35,11 +35,17 @@ const login = (async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-const refreshAccessToken = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const { refreshToken } = req.body;
+const refreshAccessToken = asyncHandler(async (req: Request, res: Response) => {
+    const { userId } = req.body;
 
-    const token = await authService.generateAccessToken(refreshToken);
-    res.status(200).json({ token: token, userID: refreshToken.userId });
+    const data = await authService.generateAccessToken(userId);
+    const user = {
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.name,
+        surename: data.user.surename,
+    }
+    res.status(201).json({ token: data.token, user: user });
 });
 
 export { login, refreshAccessToken };

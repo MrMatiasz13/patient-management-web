@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import RefreshTokenService from "./refreshTokenService";
 import { SECRET_KEY, TOKEN_EXPIRATION } from "../constants/configConstants";
 import { AuthError } from "../utils/errors/authError";
+import SequelizeUser from "../models/user";
 
 class AuthService {
     constructor(
@@ -24,20 +25,23 @@ class AuthService {
         return { user, accessToken };
     }
 
-    async generateAccessToken(userId: number): Promise<string> {
+    async generateAccessToken(userId: number) {
         if (!SECRET_KEY) throw new Error("SECRET_KEY is undefined");
 
         const refreshToken = await this.refreshTokenService.getRefreshToken(userId);
 
         const decodedToken = await this.refreshTokenService.verifyRefreshToken(refreshToken);
-        if (!decodedToken || !decodedToken.userId) {
-            throw new Error("Invalid or expired token.");
-        }
+        if (!decodedToken || !decodedToken.userId) throw new Error("Invalid or expired token.");
 
-        return jwt.sign({ userId: decodedToken.userId },
+        const user = await this.userService.getUserById(userId);
+        if (!user) throw new Error("User not found");
+
+        const token = jwt.sign({ userId: decodedToken.userId },
             SECRET_KEY,
             { expiresIn: TOKEN_EXPIRATION }
         );
+
+        return { token, user };
     }
 }
 
