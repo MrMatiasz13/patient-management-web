@@ -14,7 +14,7 @@ class AuthService {
 
     async login(email: string, password: string) {
         const user = await this.userService.getUserByEmail(email);
-        if (user == null) throw new AuthError("Invalid credentials.");
+        if (user === null) throw new AuthError("Invalid credentials.");
 
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch) throw new AuthError("Invalid credentials.");
@@ -25,6 +25,14 @@ class AuthService {
         return { user, accessToken };
     }
 
+    async logout(userId: number) {
+        const user = await this.userService.getUserById(userId);
+        if (user === null) throw new Error("User not found");
+
+        const deletedToken = await this.refreshTokenService.deleteRefreshToken(userId);
+        if (deletedToken === false) throw new Error("Failed to delete refresh token");
+    }
+
     async generateAccessToken(userId: number) {
         if (!SECRET_KEY) throw new Error("SECRET_KEY is undefined");
 
@@ -33,7 +41,7 @@ class AuthService {
         const decodedToken = await this.refreshTokenService.verifyRefreshToken(refreshToken);
         if (!decodedToken || !decodedToken.userId) throw new Error("Invalid or expired token.");
 
-        const user = await this.userService.getUserById(userId);
+        const user = await this.userService.getUserById(userId);    
         if (!user) throw new Error("User not found");
 
         const token = jwt.sign({ userId: decodedToken.userId },

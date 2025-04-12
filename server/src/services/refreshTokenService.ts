@@ -25,7 +25,6 @@ class RefreshTokenService {
             await existingToken.update({ token: refreshToken });
             
             return refreshToken;
-
         } catch (err) {
             throw new Error(`Failed to create refresh token: ${err}`);
         }
@@ -46,6 +45,17 @@ class RefreshTokenService {
         if (!record) throw new Error("User not found");
 
         return record.token;
+    }
+
+    async deleteRefreshToken(userId: number): Promise<boolean> {
+        try {
+            const record = await SequelizeRefreshToken.findOne({ where: { userId: userId } });            
+            await record!.destroy();
+            return true;
+        } catch (err) {
+            console.log("Problem with deleting refresh token: ", err);
+            return false;
+        }
     }
 }
 

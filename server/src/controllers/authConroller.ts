@@ -35,6 +35,22 @@ const login = (async (req: Request, res: Response) => {
     }
 });
 
+const logout = (async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.body;
+        if (!userId) {
+            res.status(400).json({ message: "All fields are required" });
+            return;
+        }
+
+        await authService.logout(userId);
+        res.status(204).json({ message: "Logouted" });
+    } catch (err: any) {
+        console.error("Logout error:", err);
+        res.status(500).json({ error: err.message || "Internal server error" });
+    }
+});
+
 const refreshAccessToken = asyncHandler(async (req: Request, res: Response) => {
     const { userId } = req.body;
 
@@ -48,4 +64,8 @@ const refreshAccessToken = asyncHandler(async (req: Request, res: Response) => {
     res.status(201).json({ token: data.token, user: user });
 });
 
-export { login, refreshAccessToken };
+export { 
+    login,
+    logout, 
+    refreshAccessToken 
+};
