@@ -62,6 +62,8 @@ export function useAuth() {
 
 
     const refreshToken = async (userId: number) => {
+        setLoading(true);
+        setError(null);
         try {
             const data = await authService.refreshToken(userId);
             const user: User = {
@@ -74,7 +76,10 @@ export function useAuth() {
             setToken(data.token);
             setUser(user);
         } catch (err) {
+            console.log(err);
             setToken(null);
+        } finally {
+            setLoading(false);
         }
     };
 
