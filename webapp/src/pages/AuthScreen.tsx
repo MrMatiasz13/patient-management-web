@@ -7,7 +7,7 @@ import { useUser } from "../hooks/useUser";
 function AuthScreen() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const { user } = useUser();
+  const { user, token } = useUser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,11 +17,11 @@ function AuthScreen() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && token) {
       navigate("/");
-      console.log("Logged in as: ", user.username);
+      console.log("Logged in as: ", user.name);
     }
-  }, [user]);
+  }, [user, token]);
 
   return (
     <div className="flex justify-center items-center h-screen bg-gradient-to-b from-[#1e3a8a] to-purple-800">
@@ -40,6 +40,7 @@ function AuthScreen() {
               type="text"
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
+              autoComplete="email"
               className={styles.input}
             />
           </div>
@@ -50,7 +51,8 @@ function AuthScreen() {
               id="userPassword"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
+              placeholder="Hasło"
+              autoComplete="current-password"
               className={styles.input}
             />
           </div>

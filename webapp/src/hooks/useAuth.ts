@@ -8,10 +8,9 @@ import { useUser } from "./useUser";
 const authService = new AuthService(axiosClient);
 
 export function useAuth() {
-    const { setUser } = useUser();
+    const { setUser, setToken } = useUser();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
 
     const login = async (email: string, password: string) => {
         setLoading(true);
@@ -20,10 +19,14 @@ export function useAuth() {
             const data = await authService.login(email, password);
             const user: User = {
                 id: data.user.id,
-                username: data.user.name,
+                name: data.user.name,
+                surename: data.user.surename,
                 email: data.user.email
             }
+            setToken(data.token);
             setUser(user);
+
+            localStorage.setItem("userId", JSON.stringify(user.id));
         } catch(err) {
             if (err instanceof AxiosError) {
                 setError(err.message);
@@ -36,10 +39,50 @@ export function useAuth() {
         }
     };
 
+    const logout = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const userId = Number(localStorage.getItem("userId"));
+            await authService.logout(userId);
+            
+            localStorage.removeItem("userId");
+            setToken(null);
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                setError(err.message);
+                console.log(err.message);
+            } else {
+                setError("Unexpected error occured.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    }; 
+
+
+    const refreshToken = async (userId: number) => {
+        try {
+            const data = await authService.refreshToken(userId);
+            const user: User = {
+                id: data.user.id,
+                name: data.user.name,
+                surename: data.user.surename,
+                email: data.user.email
+            }
+
+            setToken(data.token);
+            setUser(user);
+        } catch (err) {
+            setToken(null);
+        }
+    };
 
     return {
         loading,
         error,
         login,
+        logout,
+        refreshToken,
     };
 }

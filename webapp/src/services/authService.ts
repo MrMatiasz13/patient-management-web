@@ -24,12 +24,33 @@ class AuthService {
         }
     }
 
-    async logout() {
-        // TODO: logout logic
+    async logout(userId: number) {
+        try {
+            await this.axiosClinet.post('/auth/logout', userId);    
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.error('Login error:', err.response?.data || err.message);
+                return new AxiosError(err.response?.data || err.message);
+            }
+            
+            console.error('Unexpected error:', err);
+            return null;
+        }
     }
 
-    async refreshToken() {
-        // TODO: access token refreshing
+    async refreshToken(userId: number) {
+        try { 
+            const response = await this.axiosClinet.post('/auth/refresh', { userId: userId });
+            return response.data;
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.error('Login error:', err.response?.data || err.message);
+                return new AxiosError(err.response?.data || err.message);
+            }
+            
+            console.error('Unexpected error:', err);
+            return null;
+        }
     }
 }
 
