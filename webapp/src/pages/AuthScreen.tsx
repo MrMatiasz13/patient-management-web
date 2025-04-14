@@ -18,8 +18,7 @@ function AuthScreen() {
 
   useEffect(() => {
     if (user && token) {
-      navigate("/");
-      console.log("Logged in as: ", user.name);
+      navigate("/patients");
     }
   }, [user, token]);
 
