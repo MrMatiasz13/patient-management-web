@@ -1,15 +1,21 @@
+import { FaListUl } from "react-icons/fa";
 import { HiHome } from "react-icons/hi";
-import { LiaStackpath } from "react-icons/lia";
+import { MdPayment } from "react-icons/md";
 
 export const SideBarData = [
   {
-    title: "Home",
+    title: "Strona główna",
     icon: <HiHome />,
     link: "/",
   },
   {
-    title: "Patients",
-    icon: <LiaStackpath />,
+    title: "Pacjęci",
+    icon: <FaListUl />,
     link: "/patients",
+  },
+  {
+    title: "Płatności",
+    icon: <MdPayment />,
+    link: "/payments",
   },
 ];

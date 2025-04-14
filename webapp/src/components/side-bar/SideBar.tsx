@@ -6,7 +6,7 @@ function SideBar() {
   const location = useLocation();
 
   return (
-    <div className="flex h-screen bg-gray-700">
+    <div className="flex h-screen shadow-2xl">
       <ul>
         {SideBarData.map((val) => {
           return (
@@ -33,9 +33,9 @@ function SideBar() {
 
 const style = {
   currentPage:
-    "flex items-center gap-1 justify-center bg-amber-100 m-2 px-5 py-3 rounded-lg border cursor-pointer",
+    "flex items-center gap-1 justify-center bg-blue-500 m-2 px-4 py-3 rounded-lg shadow-2xl cursor-pointer",
   default:
-    "flex items-center gap-1 justify-center bg-amber-50 m-2 px-5 py-3 rounded-lg border cursor-pointer",
+    "flex items-center gap-1 justify-center bg-gray-200 m-2 px-4 py-3 rounded-lg shadow-2xl cursor-pointer",
 };
 
 export default SideBar;
