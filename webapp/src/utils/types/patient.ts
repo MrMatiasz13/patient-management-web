@@ -3,4 +3,5 @@ export type Patient = {
     name: string;
     surename: string;
     imagePath?: string;
+    phoneNumber?: number;
 };

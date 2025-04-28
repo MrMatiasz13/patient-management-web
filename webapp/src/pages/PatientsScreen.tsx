@@ -1,7 +1,8 @@
 import PatientListItem from "../components/PatientListItem";
 import TopBar from "../components/TopBar";
+import { usePatient } from "../hooks/usePatient";
 import { Patient } from "../utils/types/patient";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 
 const patients: Patient[] = [
@@ -9,6 +10,7 @@ const patients: Patient[] = [
     id: 1,
     name: "Maciek",
     surename: "Nowak",
+    phoneNumber: 608992664,
   },
   {
     id: 2,
@@ -23,9 +25,16 @@ const patients: Patient[] = [
 ];
 
 function PatientsScreen() {
-  const [selectedPatientId, setSelectedPatientId] = useState<number | null>(
-    null
-  );
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const { getAllPatients } = usePatient();
+
+  useEffect(() => {
+    getAllPatients();
+  });
+
+  const handleClick = () => {
+    getAllPatients();
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -33,8 +42,11 @@ function PatientsScreen() {
       <div className="flex flex-1 bg-gray-100">
         <div className="flex flex-col w-[20%] m-4">
           <div className="flex w-full items-center justify-between">
-            <span className="mx-2 text-2xl font-bold">Lista Pacjętów</span>
-            <button className="flex items-center bg-[#007bff] hover:bg-[#0069d9] text-white font-bold px-2 py-2 border rounded-2xl">
+            <span className="mx-2 text-2xl font-bold">Lista Pacjentów</span>
+            <button
+              className="flex items-center bg-[#007bff] hover:bg-[#0069d9] text-white font-bold px-2 py-2 border rounded-2xl"
+              onClick={handleClick}
+            >
               <IoMdAdd size={20} /> Dodaj
             </button>
           </div>
@@ -44,15 +56,17 @@ function PatientsScreen() {
               <PatientListItem
                 key={patient.id}
                 {...patient}
-                isSelected={selectedPatientId === patient.id}
-                onClick={() => setSelectedPatientId(patient.id)}
+                isSelected={selectedPatient?.id === patient.id}
+                onClick={() => setSelectedPatient(patient)}
               />
             ))}
           </div>
         </div>
 
-        <div className="flex w-full bg-white shadow-2xl my-4 mr-4 ml-2 rounded-2xl">
-          Patient Data
+        <div className="flex flex-1 bg-white shadow-2xl gap-2 my-2 mr-4 ml-2 p-5 rounded-2xl">
+          <div className="flex flex-col w-2/5">Dane</div>
+
+          <div className="flex w-3/5">Notatki</div>
         </div>
       </div>
     </div>

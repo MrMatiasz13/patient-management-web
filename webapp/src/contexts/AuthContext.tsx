@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useLayoutEffect, useState } from "react";
 import { User } from "../utils/types/user";
+import axiosClient from "../api/axiosClient";
 
 type AuthContextType = {
   user: User | null;
@@ -18,6 +19,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isAuthInitialized, setIsAuthInitialized] = useState<boolean>(false);
+
+  useLayoutEffect(() => {
+    const authInterceptor = axiosClient.interceptors.request.use((config) => {
+      if (token) {
+        config.headers.Authorization = `Barer ${token}`;
+      }
+
+      return config;
+    });
+
+    return () => {
+      axiosClient.interceptors.request.eject(authInterceptor);
+    };
+  }, [token]);
 
   return (
     <AuthContext.Provider

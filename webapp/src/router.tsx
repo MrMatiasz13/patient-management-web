@@ -23,10 +23,9 @@ const router = createBrowserRouter([
   {
     path: "/patients",
     element: (
-      // <RequireAuth>
-      //   <PatientsScreen />
-      // </RequireAuth>
-      <PatientsScreen />
+      <RequireAuth>
+        <PatientsScreen />
+      </RequireAuth>
     ),
   },
 ]);

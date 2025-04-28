@@ -17,7 +17,7 @@ export function RequireAuth({ children }: { children: ReactNode }) {
     };
 
     init();
-  }, [token]);
+  }, []);
 
   if (!isAuthInitialized) return <div>Loading...</div>;
 

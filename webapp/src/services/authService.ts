@@ -41,6 +41,7 @@ class AuthService {
     async refreshToken(userId: number) {
         try { 
             const response = await this.axiosClinet.post('/auth/refresh', { userId: userId });
+            console.log(response.data);
             return response.data;
         } catch (err) {
             if (err instanceof AxiosError) {
