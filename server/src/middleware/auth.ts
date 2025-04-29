@@ -7,7 +7,7 @@ interface AuthRequest extends Request {
 }
 
 const verifyToken = async(req: AuthRequest, res: Response, next: NextFunction) => {
-    const token = req.header("Authorization");
+    const token = req.header("Authorization")?.replace("Barer ", "");
     if (!token) {
         res.status(401).json({ error: "Access denied." });
         return;

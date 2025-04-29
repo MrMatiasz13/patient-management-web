@@ -5,6 +5,8 @@ class SequelizePatient extends Model<InferAttributes<SequelizePatient>, InferCre
     declare id?: number;
     declare name: string;
     declare surename: string;
+    declare imagePath?: string;
+    declare phoneNumber?: string;
 }
 
 SequelizePatient.init(
@@ -22,6 +24,14 @@ SequelizePatient.init(
         surename: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        imagePath: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        phoneNumber: {
+            type: DataTypes.STRING,
+            allowNull: true,
         }
     }, 
     {

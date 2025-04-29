@@ -1,6 +1,8 @@
 interface PatientDto {
     name: string,
-    surename: string
+    surename: string,
+    imagePath?: string,
+    phoneNumber?: string
 }
 
 export default PatientDto;
