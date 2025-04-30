@@ -1,7 +1,7 @@
 export type Patient = {
-    id: number;
+    id?: number;
     name: string;
     surename: string;
     imagePath?: string;
-    phoneNumber?: number;
+    phoneNumber?: string;
 };

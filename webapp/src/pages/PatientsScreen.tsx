@@ -1,39 +1,25 @@
+import { ClipLoader } from "react-spinners";
+import AddPatientDialog, {
+  AddPatientDialogRef,
+} from "../components/AddPatientDialog";
 import PatientListItem from "../components/PatientListItem";
 import TopBar from "../components/TopBar";
 import { usePatient } from "../hooks/usePatient";
 import { Patient } from "../utils/types/patient";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 
-const patients: Patient[] = [
-  {
-    id: 1,
-    name: "Maciek",
-    surename: "Nowak",
-    phoneNumber: 608992664,
-  },
-  {
-    id: 2,
-    name: "Rysiek",
-    surename: "Pasternak",
-  },
-  {
-    id: 3,
-    name: "Piotr",
-    surename: "Grześków",
-  },
-];
-
 function PatientsScreen() {
+  const dialogRef = useRef<AddPatientDialogRef>(null);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-  const { getAllPatients } = usePatient();
+  const { getAllPatients, patients, loading } = usePatient();
 
   useEffect(() => {
     getAllPatients();
-  });
+  }, []);
 
-  const handleClick = () => {
-    getAllPatients();
+  const openAddPatientDialog = () => {
+    dialogRef.current?.open();
   };
 
   return (
@@ -45,13 +31,19 @@ function PatientsScreen() {
             <span className="mx-2 text-2xl font-bold">Lista Pacjentów</span>
             <button
               className="flex items-center bg-[#007bff] hover:bg-[#0069d9] text-white font-bold px-2 py-2 border rounded-2xl"
-              onClick={handleClick}
+              onClick={openAddPatientDialog}
             >
               <IoMdAdd size={20} /> Dodaj
             </button>
           </div>
 
           <div className="flex flex-col w-full h-full rounded-2xl">
+            {loading && (
+              <div className="flex h-full w-full justify-center items-center">
+                <ClipLoader loading={loading} size={100} />
+              </div>
+            )}
+
             {patients.map((patient) => (
               <PatientListItem
                 key={patient.id}
@@ -69,6 +61,8 @@ function PatientsScreen() {
           <div className="flex w-3/5">Notatki</div>
         </div>
       </div>
+
+      <AddPatientDialog ref={dialogRef} />
     </div>
   );
 }
