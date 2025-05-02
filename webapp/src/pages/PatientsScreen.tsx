@@ -19,7 +19,10 @@ function PatientsScreen() {
   }, []);
 
   const openAddPatientDialog = () => {
-    dialogRef.current?.open();
+    if (!dialogRef.current) {
+      return;
+    }
+    dialogRef.current.open();
   };
 
   return (

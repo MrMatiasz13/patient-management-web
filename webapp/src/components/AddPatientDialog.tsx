@@ -15,8 +15,9 @@ function AddPatientDialog(
   ref: Ref<AddPatientDialogRef>
 ) {
   const [name, setName] = useState("");
-  const [surename, setSurename] = useState("");
+  const [surname, setSurname] = useState("");
   const [phone, setPhone] = useState("");
+  const [additionalInfo, setAdditionalInfo] = useState("");
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -31,16 +32,18 @@ function AddPatientDialog(
     },
   }));
 
-  const clearInputs = () => {
+  const handleClose = () => {
+    dialogRef.current?.close();
     setName("");
-    setSurename("");
+    setSurname("");
     setPhone("");
+    setAdditionalInfo("");
   };
 
   const handleAddPatient = async () => {
     const patient: Patient = {
       name: name,
-      surename: surename,
+      surename: surname,
       phoneNumber: phone,
     };
 
@@ -49,54 +52,73 @@ function AddPatientDialog(
 
   return (
     <dialog
+      className="p-6 rounded-2xl w-130 bg-white shadow-2xl backdrop:bg-black/50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
       ref={dialogRef}
-      className="rounded-2xl p-8 shadow-2xl backdrop:bg-black/30 w-96 max-w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 fixed"
+      onClose={handleClose}
     >
-      <button
-        onClick={() => {
-          dialogRef.current?.close();
-          clearInputs();
-        }}
-        className="absolute top-2 right-2 text-black hover:text-gray-600"
-      >
-        <IoClose size={32} />
-      </button>
+      <div className="flex w-full justify-between items-center">
+        <h2 className="font-bold text-3xl">Dodaj Nowego Pacjęta</h2>
+        <div className="flex h-full items-center text-gray-400 hover:text-black">
+          <IoClose size={30} onClick={handleClose} />
+        </div>
+      </div>
+      <div className="w-[calc(100%+3rem)] h-px bg-gray-400 my-4 -mx-6"></div>
 
-      <h2 className="flex w-full justify-center mt-2 mb-2 text-2xl font-bold">
-        Dodaj Pacjęta
-      </h2>
-
-      <form className="flex flex-col w-full gap-2">
+      <form className="flex flex-col w-full">
+        {requiredFieldName("Imię")}
         <input
-          className="w-full p-2 rounded-2xl border"
+          className="w-full p-2 rounded-md my-2 border-gray-400 border-1"
           type="text"
-          placeholder="Imię"
-          value={name}
+          placeholder="Podaj Imię"
           onChange={(e) => setName(e.target.value)}
+          required
         />
+        {requiredFieldName("Nazwisko")}
         <input
-          className="w-full p-2 rounded-2xl border"
+          className="w-full p-2 rounded-md my-2 border-gray-400 border-1"
           type="text"
-          placeholder="Nazwisko"
-          value={surename}
-          onChange={(e) => setSurename(e.target.value)}
+          placeholder="Podaj Nazwisko"
+          onChange={(e) => setSurname(e.target.value)}
+          required
         />
+        <h1 className="font-semibold text-xl">Telefon</h1>
         <input
-          className="w-full p-2 rounded-2xl border"
-          type="tel"
-          placeholder="Telefon"
-          value={phone}
+          className="w-full p-2 rounded-md my-2 border-gray-400 border-1"
+          type="text"
+          placeholder="Podaj Numer Telefonu"
           onChange={(e) => setPhone(e.target.value)}
         />
-
-        <button
-          className="bg-[#007bff] hover:bg-[#0069d9] text-white font-bold px-2 py-2 border rounded-2xl"
-          onClick={handleAddPatient}
-        >
-          Dodaj
-        </button>
+        <h1 className="font-semibold text-xl">Dodatkowe informację</h1>
+        <textarea
+          className="w-full h-30 p-2 rounded-md my-2 border-gray-400 border-1"
+          placeholder="Podaj dodatkowe informację (jeśli potrzeba)"
+          onChange={(e) => setAdditionalInfo(e.target.value)}
+        />
+        <div className="flex w-full gap-2 mt-2 items-center justify-end">
+          <button
+            className="py-3 px-7 rounded-xl border-gray-400 border-1 cursor-pointer"
+            onClick={handleClose}
+          >
+            Anuluj
+          </button>
+          <button
+            className="bg-[#007bff] hover:bg-[#0069d9] text-white font-bold py-3 px-7 rounded-xl cursor-pointer"
+            onClick={handleAddPatient}
+          >
+            Zapisz Pacjęta
+          </button>
+        </div>
       </form>
     </dialog>
+  );
+}
+
+function requiredFieldName(name: string) {
+  return (
+    <div className="flex w-full gap-2">
+      <h1 className="font-semibold text-xl">{name}</h1>
+      <span className="text-red-500 text-xl">*</span>
+    </div>
   );
 }
 
