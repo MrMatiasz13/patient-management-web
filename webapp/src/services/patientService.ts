@@ -23,16 +23,32 @@ class PatientService {
         }
     }
 
-    async addPatient(patient: Patient) {
+    async addPatient(patient: Partial<Patient>) {
         try {
             const data = { 
                 name: patient.name, 
-                surename: patient.surename, 
+                surname: patient.surname, 
                 phoneNumber: patient.phoneNumber 
             };
 
             const response = await this.axiosClinet.post('/api/patients/create', data); 
             console.log(response.data);
+            return response.data;
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.error('Patient error:', err.response?.data || err.message);
+                return new AxiosError(err.response?.data || err.message);
+            }
+            
+            console.error('Unexpected error:', err);
+            return err;
+        }
+    }
+
+    async deletePatient(patient: Patient) {
+        try {
+            const response = await this.axiosClinet.post(`/api/patients/delete/${patient.id}`);
+            console.log(`Delete response: ${response.data}`);
             return response.data;
         } catch (err) {
             if (err instanceof AxiosError) {

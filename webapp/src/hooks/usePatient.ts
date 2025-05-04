@@ -30,7 +30,7 @@ export function usePatient() {
         }
     }
 
-    const addPatient = async (patient: Patient) => {
+    const addPatient = async (patient: Partial<Patient>) => {
         setLoading(true);
         setError(null);
         try {
@@ -48,9 +48,28 @@ export function usePatient() {
         }
     };
 
+    const deletePatient = async (patient: Patient) => {
+        setLoading(true);
+        setError(null);
+        try {
+            await patientsService.deletePatient(patient);
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                setError(err.message);
+                console.log(err.message);
+            } else {
+                console.log(err);
+                setError("Unexpected error occured.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return { 
         getAllPatients,
         addPatient, 
+        deletePatient,
         patients, 
         loading, 
         error 

@@ -9,7 +9,7 @@ function TopBar() {
   };
 
   return (
-    <div className="flex w-screen py-5 items-center justify-between bg-white shadow">
+    <div className="flex w-screen py-5 mb-2 items-center justify-between bg-white shadow">
       <div className="flex h-full mx-5 justify-center items-center">
         <button className="cursor-pointer">
           <MdOutlineSort size={35} />
