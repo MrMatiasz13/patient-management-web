@@ -1,6 +1,6 @@
 interface PatientDto {
     name: string,
-    surename: string,
+    surname: string,
     imagePath?: string,
     phoneNumber?: string
 }

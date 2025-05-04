@@ -4,7 +4,7 @@ import db from "../database/database.config";
 class SequelizePatient extends Model<InferAttributes<SequelizePatient>, InferCreationAttributes<SequelizePatient>> {
     declare id?: number;
     declare name: string;
-    declare surename: string;
+    declare surname: string;
     declare imagePath?: string;
     declare phoneNumber?: string;
 }
@@ -21,7 +21,7 @@ SequelizePatient.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        surename: {
+        surname: {
             type: DataTypes.STRING,
             allowNull: false,
         },

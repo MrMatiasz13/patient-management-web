@@ -23,7 +23,7 @@ const getPatient = asyncHandler(async (req: Request, res: Response) => {
 
 const createPatient = asyncHandler(async (req: Request, res: Response) => {
     const dto: PatientDto = req.body;
-    if (!dto || !dto.name || !dto.surename) {
+    if (!dto || !dto.name || !dto.surname) {
         res.status(400).json({ message: "Patient data is missing or incomplete." });
         return;
     }
@@ -33,4 +33,16 @@ const createPatient = asyncHandler(async (req: Request, res: Response) => {
     res.status(201).json({ message: "Successfully created patient.", patient: patient });
 });
 
-export { getAllPatients, getPatient, createPatient };
+const deletePatient = asyncHandler(async (req: Request, res: Response) => {
+    const id = req.params.id;
+    
+    const deletingPatient = await patientService.deletePatient(Number(id));
+    if(!deletePatient) {
+        res.status(404).json({ message: "Patient not found" });
+        return;
+    }
+
+    res.status(200).json({message: `Succesfully deleted patient of id: ${id}` });
+});
+
+export { getAllPatients, getPatient, createPatient, deletePatient };
