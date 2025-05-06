@@ -53,7 +53,9 @@
           </button>
         </div>
         <div className="mt-6">
-          {patients.map((patient) => (
+          {patients.filter((item => {
+            return search.toLowerCase() === '' ? item : item.name.toLowerCase().includes(search) || item.name.includes(search);
+          })).map((patient) => (
             <PatientListItem
               key={patient.id}
               {...patient}
