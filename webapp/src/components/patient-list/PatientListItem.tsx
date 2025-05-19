@@ -3,6 +3,7 @@ import { Patient } from "../../utils/types/patient";
 import { MdMoreHoriz } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import CardDropDown from "./CardDropDown";
+import PatientImage from "../helper-components/PatientImage";
 
 interface PatientListItemProps extends Patient {
   isSelected: boolean;
@@ -49,17 +50,13 @@ function PatientListItem({
 
         <div className="relative">
           {isMenuOpen && (
-            <CardDropDown
-              ref={menuRef}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
+            <CardDropDown ref={menuRef} onEdit={onEdit} onDelete={onDelete} />
           )}
         </div>
       </div>
 
       <div className="flex items-center gap-3">
-        <PatientImage {...patient} />
+        <PatientImage patient={patient} />
         <div>
           <h2 className="font-semibold text-2xl">
             {patient.name} {patient.surname}
@@ -75,14 +72,6 @@ function PatientListItem({
       </div>
     </div>
   );
-}
-
-function PatientImage(patient: Patient) {
-  if (!patient.imagePath) {
-    return <FaUser className="text-gray-500" size={50} />;
-  }
-
-  return <img src={patient.imagePath} alt="Patient" />;
 }
 
 export default PatientListItem;
