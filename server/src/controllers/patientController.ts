@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { patientService } from "../services";
+import { patientService } from "../di";
 import asyncHandler from "express-async-handler"; 
 import PatientDto from "../dtos/patientDto";
 

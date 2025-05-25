@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import RefreshTokenService from "./refreshTokenService";
 import { SECRET_KEY, TOKEN_EXPIRATION } from "../constants/configConstants";
 import { AuthError } from "../utils/errors/authError";
-import SequelizeUser from "../models/user";
 
 class AuthService {
     constructor(

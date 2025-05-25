@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import asyncHandler from "express-async-handler"
-import { userService } from "../services";
+import { userService } from "../di";
 
 const createUser = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { name, surename, email, password } = req.body;
