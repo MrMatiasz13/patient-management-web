@@ -1,18 +1,22 @@
 import { forwardRef, Ref, useImperativeHandle, useRef } from "react";
 import { IoClose } from "react-icons/io5";
-import { RequiredFieldName } from "../helper-components/RequiredFieldName";
+import { useNavigate } from "react-router";
+import { Patient } from "../../utils/types/patient";
 
 export type AddConclusionDialogRef = {
   open: () => void;
 };
 
-interface AddConclusionDialogProps {}
+interface AddConclusionDialogProps {
+  patient: Patient;
+}
 
 function AddConclusionDialog(
-  _: AddConclusionDialogProps,
+  { patient }: AddConclusionDialogProps,
   ref: Ref<AddConclusionDialogRef>
 ) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const navigate = useNavigate();
 
   useImperativeHandle(ref, () => ({
     open: () => {
@@ -23,8 +27,6 @@ function AddConclusionDialog(
   const handleClose = async () => {
     dialogRef.current?.close();
   };
-
-  const handleAddConclusion = async () => {};
 
   return (
     <dialog
@@ -41,7 +43,14 @@ function AddConclusionDialog(
       <div className="w-[calc(100%+3rem)] h-px bg-gray-400 my-4 -mx-6"></div>
 
       <div className="flex flex-col w-full justify-center items-center gap-2">
-        <button className={styles.button}>Dzieci w wieku przedszkolnym</button>
+        <button
+          className={styles.button}
+          onClick={() => {
+            navigate(`/patients/${patient.id}/kindergarten-sheet`);
+          }}
+        >
+          Dzieci w wieku przedszkolnym
+        </button>
         <button className={styles.button}>Dzieci i dorośli</button>
       </div>
     </dialog>

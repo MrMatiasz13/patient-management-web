@@ -23,7 +23,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useLayoutEffect(() => {
     const authInterceptor = axiosClient.interceptors.request.use((config) => {
       if (token) {
-        config.headers.Authorization = `Barer ${token}`;
+        config.headers.Authorization = `Bearer ${token}`;
       }
 
       return config;

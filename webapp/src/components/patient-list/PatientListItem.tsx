@@ -1,9 +1,9 @@
-import { FaUser } from "react-icons/fa";
 import { Patient } from "../../utils/types/patient";
 import { MdMoreHoriz } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import CardDropDown from "./CardDropDown";
 import PatientImage from "../helper-components/PatientImage";
+import { calculateAge } from "../../utils/helpers/CalculateAge";
 
 interface PatientListItemProps extends Patient {
   isSelected: boolean;
@@ -21,6 +21,8 @@ function PatientListItem({
 }: PatientListItemProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const age = calculateAge(patient.birthDate);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -62,10 +64,12 @@ function PatientListItem({
             {patient.name} {patient.surname}
           </h2>
           <p className="text-gray-500 text-md">
-            {patient.phoneNumber != "" ? (
-              `Kontakt: ${patient.phoneNumber}`
-            ) : (
-              <span></span>
+            <span>{age} lat</span>
+            {patient.phoneNumber && (
+              <>
+                <span className="mx-1">•</span>
+                <span>Kontakt: {patient.phoneNumber}</span>
+              </>
             )}
           </p>
         </div>

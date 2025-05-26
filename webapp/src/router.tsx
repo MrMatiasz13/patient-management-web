@@ -3,6 +3,7 @@ import AuthScreen from "./pages/AuthScreen";
 import HomeScreen from "./pages/HomeScreen";
 import { RequireAuth } from "./utils/helpers/RequireAuth";
 import PatientsScreen from "./pages/PatientsScreen";
+import KindergartenSheetScreen from "./pages/examination-sheets-pages/KindergartenSheetScreen";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,15 @@ const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <PatientsScreen />
+      </RequireAuth>
+    ),
+  },
+
+  {
+    path: "/patients/:id/kindergarten-sheet",
+    element: (
+      <RequireAuth>
+        <KindergartenSheetScreen />
       </RequireAuth>
     ),
   },

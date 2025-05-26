@@ -6,6 +6,7 @@ import { useRef } from "react";
 import AddConclusionDialog, {
   AddConclusionDialogRef,
 } from "./AddConclusionDialog";
+import { calculateAge } from "../../utils/helpers/CalculateAge";
 
 interface PatientInfoPanelProps {
   selectedPatient: Patient | null;
@@ -20,14 +21,6 @@ const mockedDocuments = [
     id: 2,
     title: "Oświadczenie o suczkach",
   },
-];
-
-const mockedConclusions: any[] = [
-  // {
-  //   id: 1,
-  //   date: "28/10/2006",
-  //   conclusion: "Chuj dupa kurwa cipa...",
-  // },
 ];
 
 function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
@@ -58,17 +51,19 @@ function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
           </div>
 
           <div className={styles.sectionContainer}>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-lg text-gray-500">Imię i Nazwisko</p>
-                <p className="text-lg">
-                  {selectedPatient.name} {selectedPatient.surname}
-                </p>
-              </div>
-              <div>
-                <p className="text-lg text-gray-500">Telefon</p>
-                <p className="text-lg">{selectedPatient.phoneNumber}</p>
-              </div>
+            <div className="grid grid-cols-3 gap-4">
+              <PatientInfo
+                title="Imię i nazwisko"
+                data={`${selectedPatient.name} ${selectedPatient.surname}`}
+              />
+              <PatientInfo
+                title="Wiek"
+                data={`${calculateAge(`${selectedPatient.birthDate}`)} lat`}
+              />
+              <PatientInfo
+                title="Telefon"
+                data={`${selectedPatient.phoneNumber}`}
+              />
             </div>
           </div>
 
@@ -126,7 +121,7 @@ function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
         </div>
       </div>
 
-      <AddConclusionDialog ref={dialogRef} />
+      <AddConclusionDialog patient={selectedPatient} ref={dialogRef} />
     </div>
   );
 }
@@ -137,6 +132,20 @@ const styles = {
   sectionIcon: "text-blue-600 text-3xl",
   button:
     "flex items-center bg-[#007bff] hover:bg-[#0069d9] text-white px-2 py-1 rounded-md cursor-pointer",
+};
+
+type PatientInfoProps = {
+  title: string;
+  data: string;
+};
+
+const PatientInfo = ({ title, data }: PatientInfoProps) => {
+  return (
+    <div>
+      <p className="text-lg text-gray-500">{title}:</p>
+      <p className="text-lg">{data}</p>
+    </div>
+  );
 };
 
 export default PatientInfoPanel;

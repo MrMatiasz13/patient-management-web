@@ -8,7 +8,7 @@ export type AddPatientDialogRef = {
 };
 
 interface AddPatientDialogProps {
-  onPatientAdded?: () => void;
+  onPatientAdded: () => void;
 }
 
 function AddPatientDialog(
@@ -17,6 +17,7 @@ function AddPatientDialog(
 ) {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [phone, setPhone] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
 
@@ -34,6 +35,7 @@ function AddPatientDialog(
     dialogRef.current?.close();
     setName("");
     setSurname("");
+    setBirthDate("");
     setPhone("");
     setAdditionalInfo("");
   };
@@ -42,11 +44,12 @@ function AddPatientDialog(
     const patient: Partial<Patient> = {
       name: name,
       surname: surname,
+      birthDate: birthDate,
       phoneNumber: phone,
     };
 
     await addPatient(patient);
-    onPatientAdded?.();
+    onPatientAdded();
     await handleClose();
   };
 
@@ -64,10 +67,13 @@ function AddPatientDialog(
       </div>
       <div className="w-[calc(100%+3rem)] h-px bg-gray-400 my-4 -mx-6"></div>
 
-      <form className="flex flex-col w-full" onSubmit={async (e) => {
-        e.preventDefault();
-        await handleAddPatient();
-      }}>
+      <form
+        className="flex flex-col w-full"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await handleAddPatient();
+        }}
+      >
         {requiredFieldName("Imię")}
         <input
           className={styles.input}
@@ -86,6 +92,14 @@ function AddPatientDialog(
           placeholder="Podaj Nazwisko"
           value={surname}
           onChange={(e) => setSurname(e.target.value)}
+          required
+        />
+        {requiredFieldName("Data urodzenia")}
+        <input
+          className={styles.input}
+          type="date"
+          value={birthDate}
+          onChange={(e) => setBirthDate(e.target.value)}
           required
         />
         <h1 className="font-semibold text-xl">Telefon</h1>
