@@ -1,7 +1,7 @@
 import { ReactNode, useLayoutEffect } from "react";
-import { useUser } from "../../hooks/useUser";
+import { useUser } from "../../../hooks/useUser";
 import { Navigate } from "react-router";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 
 export function RequireAuth({ children }: { children: ReactNode }) {
   const { token, user, isAuthInitialized, setIsAuthInitialized } = useUser();

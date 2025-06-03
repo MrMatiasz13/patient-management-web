@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import AuthScreen from "./pages/AuthScreen";
 import HomeScreen from "./pages/HomeScreen";
-import { RequireAuth } from "./utils/helpers/RequireAuth";
+import { RequireAuth } from "./utils/helpers/components/RequireAuth";
 import PatientsScreen from "./pages/PatientsScreen";
 import KindergartenSheetScreen from "./pages/examination-sheets-pages/KindergartenSheetScreen";
 

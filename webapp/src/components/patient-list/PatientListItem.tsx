@@ -2,8 +2,8 @@ import { Patient } from "../../utils/types/patient";
 import { MdMoreHoriz } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import CardDropDown from "./CardDropDown";
-import PatientImage from "../helper-components/PatientImage";
 import { calculateAge } from "../../utils/helpers/CalculateAge";
+import PatientImage from "../PatientImage";
 
 interface PatientListItemProps extends Patient {
   isSelected: boolean;
@@ -67,7 +67,7 @@ function PatientListItem({
             <span>{age} lat</span>
             {patient.phoneNumber && (
               <>
-                <span className="mx-1">•</span>
+                <span className="mx-1 text-gray-300">•</span>
                 <span>Kontakt: {patient.phoneNumber}</span>
               </>
             )}

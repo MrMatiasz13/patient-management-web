@@ -6,7 +6,7 @@ import { useRef } from "react";
 import AddConclusionDialog, {
   AddConclusionDialogRef,
 } from "./AddConclusionDialog";
-import { calculateAge } from "../../utils/helpers/CalculateAge";
+import { calculateAge } from "../../utils/helpers/calculateAge";
 
 interface PatientInfoPanelProps {
   selectedPatient: Patient | null;
@@ -84,6 +84,7 @@ function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
               <div className={styles.sectionContainer}>
                 {mockedDocuments.map((item, index) => (
                   <div
+                    key={index}
                     className={`flex p-2 items-center justify-between ${index != 0 && "border-t-1 border-gray-400"}`}
                   >
                     <h2 className="text-blue-500 text-xl">{item.title}</h2>
@@ -136,14 +137,14 @@ const styles = {
 
 type PatientInfoProps = {
   title: string;
-  data: string;
+  data?: string;
 };
 
 const PatientInfo = ({ title, data }: PatientInfoProps) => {
   return (
     <div>
       <p className="text-lg text-gray-500">{title}:</p>
-      <p className="text-lg">{data}</p>
+      <p className="text-lg">{!data ? "Brak Informacji" : data}</p>
     </div>
   );
 };
