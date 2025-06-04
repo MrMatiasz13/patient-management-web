@@ -5,6 +5,8 @@ export interface ExaminationSectionProps {
   items: string[];
   color: "blue" | "green" | "orange" | "red";
   gridCols?: number;
+  formState: Record<string, boolean>;
+  onCheckboxChange: (label: string, checked: boolean) => void;
 }
 
 const colorMap = {
@@ -31,6 +33,8 @@ export function ExaminationSection({
   items,
   color,
   gridCols = 2,
+  formState,
+  onCheckboxChange,
 }: ExaminationSectionProps) {
   const colors = colorMap[color];
 
@@ -43,7 +47,11 @@ export function ExaminationSection({
         >
           {items.map((item, index) => (
             <div key={index}>
-              <Checkbox title={item} />
+              <Checkbox
+                title={item}
+                checked={formState[item] || false}
+                onChange={onCheckboxChange}
+              />
             </div>
           ))}
         </div>

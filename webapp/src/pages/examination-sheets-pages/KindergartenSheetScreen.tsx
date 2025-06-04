@@ -24,6 +24,7 @@ import {
   section6yoSpeechOrgans,
 } from "../../utils/data/speechOrgansSectionData";
 import { Checkbox } from "../../components/Checkbox";
+import { parafunctions } from "../../utils/data/parafunctionsData";
 
 function KindergartenSheetScreen() {
   const navigate = useNavigate();
@@ -34,7 +35,15 @@ function KindergartenSheetScreen() {
   const [patient, setPatient] = useState<Patient | null>(null);
   const todayDate = new Date().toISOString().split("T")[0];
 
+  const [formState, setFormState] = useState<Record<string, boolean>>({});
   const [conclusion, setConclusion] = useState("");
+
+  const handleCheckboxChange = (label: string, checked: boolean) => {
+    setFormState((prev) => ({
+      ...prev,
+      [label]: checked,
+    }));
+  };
 
   useEffect(() => {
     const fetchPatient = async () => {
@@ -71,35 +80,88 @@ function KindergartenSheetScreen() {
 
         <div className="w-full mt-8">
           <Heading title="Odbiór mowy - badanie rozumienia" />
-          <ExaminationSection {...section3yo} />
-          <ExaminationSection {...section4yo} />
-          <ExaminationSection {...section5yo} />
-          <ExaminationSection {...section6yo} />
+          <ExaminationSection
+            {...section3yo}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
+          <ExaminationSection
+            {...section4yo}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
+          <ExaminationSection
+            {...section5yo}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
+          <ExaminationSection
+            {...section6yo}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
         </div>
 
         <div className="w-full mt-8">
           <Heading title="Nadawanie mowy - wymowa/nazywanie obrazków" />
-          <ExaminationSection {...section3yoSpeech} gridCols={3} />
-          <ExaminationSection {...section4yoSpeech} gridCols={2} />
-          <ExaminationSection {...section5yoSpeech} />
-          <ExaminationSection {...section6yoSpeech} />
+          <ExaminationSection
+            {...section3yoSpeech}
+            gridCols={3}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
+          <ExaminationSection
+            {...section4yoSpeech}
+            gridCols={2}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
+          <ExaminationSection
+            {...section5yoSpeech}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
+          <ExaminationSection
+            {...section6yoSpeech}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
         </div>
 
         <div className="w-full mt-8">
           <Heading title="Sprawność narządów mowy" />
-          <ExaminationSection {...section3yoSpeechOrgans} />
-          <ExaminationSection {...section4yoSpeechOrgans} />
-          <ExaminationSection {...section5yoSpeechOrgans} />
-          <ExaminationSection {...section6yoSpeechOrgans} />
+          <ExaminationSection
+            {...section3yoSpeechOrgans}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
+          <ExaminationSection
+            {...section4yoSpeechOrgans}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
+          <ExaminationSection
+            {...section5yoSpeechOrgans}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
+          <ExaminationSection
+            {...section6yoSpeechOrgans}
+            formState={formState}
+            onCheckboxChange={handleCheckboxChange}
+          />
         </div>
 
         <div className="w-full mt-8">
           <Heading title="Zaobserwowane parafuncje" />
           <div className="grid grid-cols-4 gap-4 p-2">
-            <Checkbox title="Niepłynność mowy" />
-            <Checkbox title="Oddychanie przez usta" />
-            <Checkbox title="Brak pionizacji języka" />
-            <Checkbox title="Ssanie kciuka/ picie z butelki" />
+            {parafunctions.map((title) => (
+              <Checkbox
+                title={title}
+                checked={formState[title]}
+                onChange={handleCheckboxChange}
+              />
+            ))}
           </div>
         </div>
 
