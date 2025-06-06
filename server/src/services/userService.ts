@@ -1,31 +1,31 @@
 import { hash } from "bcrypt-ts";
 import SequelizeUser from "../models/user";
+import UserRepository from "../repositories/userRepository";
+import { UserDto } from "../dtos/userDto";
 
 class UserService {
-    async createUser(name: string, surename: string, email: string, password: string) {
-        const user = await this.getUserByEmail(email);
-        if(user != null) throw new Error('User already exist');
+  constructor(private readonly userRepository: UserRepository) {}
 
-        const hashedPassword = await hash(password, 10);
-        const newUser = await SequelizeUser.create({
-            name: name,
-            surename: surename,
-            email: email,
-            password: hashedPassword
-        });
+  async createUser(data: UserDto) {
+    const user = await this.userRepository.getUserByEmail(data.email);
+    if (user != null) throw new Error("User already exist");
 
-        return newUser;
-    }
+    const hashedPassword = await hash(data.password, 10);
+    const newUser = await this.userRepository.createUser({
+      ...data,
+      password: hashedPassword,
+    });
 
-    async getUserById(userId: number): Promise<SequelizeUser | null> {
-        const user = SequelizeUser.findOne({ where: { id: userId } });
-        return user || null;
-    }
+    return newUser;
+  }
 
-    async getUserByEmail(email: string): Promise<SequelizeUser | null> {
-        const user = SequelizeUser.findOne({ where: {email} });
-        return user || null;
-    }
+  async getUserById(userId: number): Promise<SequelizeUser | null> {
+    return await this.userRepository.getUserById(userId);
+  }
+
+  async getUserByEmail(email: string): Promise<SequelizeUser | null> {
+    return await this.userRepository.getUserByEmail(email);
+  }
 }
 
 export default UserService;

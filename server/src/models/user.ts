@@ -1,4 +1,3 @@
-import db from "../database/database.config";
 import {
   AllowNull,
   Column,
@@ -8,9 +7,23 @@ import {
   Table,
   Unique,
 } from "sequelize-typescript";
+import { Optional } from "sequelize";
+
+interface UserAttributes {
+  id: number;
+  name: string;
+  surename: string;
+  email: string;
+  password: string;
+}
+
+export type UserCreationAttributes = Optional<UserAttributes, "id">;
 
 @Table({ tableName: "users", timestamps: false })
-class SequelizeUser extends Model {
+class SequelizeUser
+  extends Model<UserAttributes, UserCreationAttributes>
+  implements UserAttributes
+{
   @PrimaryKey
   @Column(DataType.INTEGER)
   id!: number;
