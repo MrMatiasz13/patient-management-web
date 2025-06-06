@@ -1,57 +1,37 @@
 import {
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
+  AllowNull,
+  AutoIncrement,
+  Column,
+  DataType,
   Model,
-} from "sequelize";
-import db from "../database/database.config";
+  PrimaryKey,
+  Table,
+} from "sequelize-typescript";
 
-class SequelizePatient extends Model<
-  InferAttributes<SequelizePatient>,
-  InferCreationAttributes<SequelizePatient>
-> {
-  declare id?: number;
-  declare name: string;
-  declare surname: string;
-  declare birthDate: string;
-  declare imagePath?: string;
-  declare phoneNumber?: string;
+@Table({ tableName: "patients", timestamps: false })
+class SequelizePatient extends Model {
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  id!: number;
+
+  @AllowNull(false)
+  @Column(DataType.TEXT)
+  name!: string;
+
+  @AllowNull(false)
+  @Column(DataType.TEXT)
+  surname!: string;
+
+  @AllowNull(false)
+  @Column(DataType.TEXT)
+  birthDate!: string;
+
+  @Column(DataType.TEXT)
+  imagePath?: string;
+
+  @Column(DataType.TEXT)
+  phoneNumber?: string;
 }
-
-SequelizePatient.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      allowNull: false,
-      autoIncrement: true,
-    },
-    name: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    surname: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    birthDate: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    imagePath: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    phoneNumber: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-  },
-  {
-    sequelize: db,
-    timestamps: false,
-    tableName: "patients",
-  }
-);
 
 export default SequelizePatient;

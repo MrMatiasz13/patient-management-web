@@ -4,11 +4,11 @@ dotenv.config();
 import app from "./app";
 import db from "./database/database.config";
 import { PORT } from "./constants/configConstants";
-import SequelizePatient from "./models/patient";
+import SequelizeExamination from "./models/examination";
 
 const startServer = async () => {
   try {
-    await db.sync({ force: false });
+    await db.sync({ force: false, alter: true });
     console.log("Database connected.");
 
     app.listen(PORT, () => {

@@ -1,9 +1,4 @@
-interface PatientDto {
-  name: string;
-  surname: string;
-  birthDate: string;
-  imagePath?: string;
-  phoneNumber?: string;
-}
+import { CreationAttributes } from "sequelize";
+import SequelizePatient from "../models/patient";
 
-export default PatientDto;
+export type PatientDto = CreationAttributes<SequelizePatient>;
