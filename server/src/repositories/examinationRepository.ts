@@ -9,6 +9,10 @@ class ExaminationRepository {
   async create(data: ExaminationDto) {
     return await SequelizeExamination.create(data);
   }
+
+  async delete(id: number) {
+    return await SequelizeExamination.destroy({ where: { id } });
+  }
 }
 
 export default ExaminationRepository;

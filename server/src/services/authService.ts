@@ -28,10 +28,7 @@ class AuthService {
     const user = await this.userService.getUserById(userId);
     if (user === null) throw new Error("User not found");
 
-    const deletedToken =
-      await this.refreshTokenService.deleteRefreshToken(userId);
-    if (deletedToken === false)
-      throw new Error("Failed to delete refresh token");
+    await this.refreshTokenService.deleteRefreshToken(userId);
   }
 
   async generateAccessToken(userId: number) {

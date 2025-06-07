@@ -4,8 +4,13 @@ import {
   REFRESH_TOKEN_SECRET,
 } from "../constants/configConstants";
 import SequelizeRefreshToken from "../models/refreshToken";
+import RefreshTokenRepository from "../repositories/refreshTokenRepository";
 
 class RefreshTokenService {
+  constructor(
+    private readonly refreshTokenRepository: RefreshTokenRepository
+  ) {}
+
   async createRefreshToken(userId: number): Promise<string> {
     if (!REFRESH_TOKEN_SECRET)
       throw new Error("REFRESH_TOKEN_SECRET is undefined");
@@ -15,11 +20,11 @@ class RefreshTokenService {
         expiresIn: REFRESH_TOKEN_EXPIRATION,
       });
 
-      const existingToken = await SequelizeRefreshToken.findOne({
-        where: { userId: userId },
-      });
+      const existingToken =
+        await this.refreshTokenRepository.getByUserId(userId);
+
       if (!existingToken) {
-        await SequelizeRefreshToken.create({
+        await this.refreshTokenRepository.create({
           userId: userId,
           token: refreshToken,
         });
@@ -46,25 +51,17 @@ class RefreshTokenService {
   }
 
   async getRefreshToken(userId: number): Promise<string> {
-    const record = await SequelizeRefreshToken.findOne({
-      where: { userId: userId },
-    });
-    if (!record) throw new Error("User not found");
+    const record = await this.refreshTokenRepository.getByUserId(userId);
+    if (!record) throw new Error("Token not found");
 
     return record.token;
   }
 
-  async deleteRefreshToken(userId: number): Promise<boolean> {
-    try {
-      const record = await SequelizeRefreshToken.findOne({
-        where: { userId: userId },
-      });
-      await record!.destroy();
-      return true;
-    } catch (err) {
-      console.log("Problem with deleting refresh token: ", err);
-      return false;
-    }
+  async deleteRefreshToken(userId: number): Promise<void> {
+    const record = await this.refreshTokenRepository.getByUserId(userId);
+    if (!record) throw new Error("Token not found");
+
+    await this.refreshTokenRepository.delete(record);
   }
 }
 
