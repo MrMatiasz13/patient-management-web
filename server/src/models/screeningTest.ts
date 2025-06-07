@@ -9,8 +9,8 @@ import {
   Table,
 } from "sequelize-typescript";
 
-@Table({ tableName: "examination", timestamps: false })
-class SequelizeExamination extends Model {
+@Table({ tableName: "screeningTest", timestamps: false })
+class SequelizeScreeningTest extends Model {
   @PrimaryKey
   @Column(DataType.INTEGER)
   id!: number;
@@ -31,4 +31,4 @@ class SequelizeExamination extends Model {
   conclusion?: string;
 }
 
-export default SequelizeExamination;
+export default SequelizeScreeningTest;

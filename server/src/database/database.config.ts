@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize-typescript";
-import SequelizeExamination from "../models/examination";
+import SequelizeExamination from "../models/screeningTest";
 import SequelizePatient from "../models/patient";
 import SequelizeUser from "../models/user";
 import SequelizeRefreshToken from "../models/refreshToken";
