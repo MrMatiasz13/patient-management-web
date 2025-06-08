@@ -1,3 +1,4 @@
+import { Optional } from "sequelize";
 import {
   AllowNull,
   AutoIncrement,
@@ -8,8 +9,22 @@ import {
   Table,
 } from "sequelize-typescript";
 
+interface PatientAttributes {
+  id: number;
+  name: string;
+  surname: string;
+  birthDate: string;
+  imagePath?: string;
+  phoneNumber?: string;
+}
+
+export type PatientCreationAttributes = Optional<PatientAttributes, "id">;
+
 @Table({ tableName: "patients", timestamps: false })
-class SequelizePatient extends Model {
+class SequelizePatient
+  extends Model<PatientAttributes, PatientCreationAttributes>
+  implements PatientAttributes
+{
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)

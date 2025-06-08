@@ -1,6 +1,7 @@
 import { Optional } from "sequelize";
 import {
   AllowNull,
+  AutoIncrement,
   Column,
   DataType,
   Model,
@@ -8,23 +9,24 @@ import {
   Table,
 } from "sequelize-typescript";
 
-interface refeshTokenAttributes {
+interface RefeshTokenAttributes {
   id: number;
   userId: number;
   token: string;
 }
 
-export type refreshTokenCreationAttributes = Optional<
-  refeshTokenAttributes,
+export type RefreshTokenCreationAttributes = Optional<
+  RefeshTokenAttributes,
   "id"
 >;
 
 @Table({ tableName: "refresh_tokens", timestamps: true })
 class SequelizeRefreshToken
-  extends Model<refeshTokenAttributes, refreshTokenCreationAttributes>
-  implements refeshTokenAttributes
+  extends Model<RefeshTokenAttributes, RefreshTokenCreationAttributes>
+  implements RefeshTokenAttributes
 {
   @PrimaryKey
+  @AutoIncrement
   @Column(DataType.INTEGER)
   id!: number;
 

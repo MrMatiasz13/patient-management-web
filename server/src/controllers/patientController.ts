@@ -38,8 +38,8 @@ const createPatient = asyncHandler(async (req: Request, res: Response) => {
 const deletePatient = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id;
 
-  const deletingPatient = await patientService.deletePatient(Number(id));
-  if (!deletePatient) {
+  const deletedPatient = await patientService.deletePatient(Number(id));
+  if (!deletedPatient) {
     res.status(404).json({ message: "Patient not found" });
     return;
   }

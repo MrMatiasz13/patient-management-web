@@ -1,4 +1,3 @@
-import { CreationAttributes } from "sequelize";
-import SequelizeExamination from "../models/screeningTest";
+import { ScreeningTestCreationAttributes } from "../models/screeningTest";
 
-export type ScreeningTestDto = CreationAttributes<SequelizeExamination>;
+export type ScreeningTestDto = ScreeningTestCreationAttributes;

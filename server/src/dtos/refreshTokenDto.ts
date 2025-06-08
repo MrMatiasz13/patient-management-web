@@ -1,3 +1,3 @@
-import { refreshTokenCreationAttributes } from "../models/refreshToken";
+import { RefreshTokenCreationAttributes } from "../models/refreshToken";
 
-export type refreshTokenDto = refreshTokenCreationAttributes;
+export type refreshTokenDto = RefreshTokenCreationAttributes;

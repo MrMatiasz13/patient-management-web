@@ -1,33 +1,39 @@
 import { PatientDto } from "../dtos/patientDto";
 import SequelizePatient from "../models/patient";
+import PatientRepository from "../repositories/patientRepository";
 
 class PatientService {
+  constructor(private readonly patientRepository: PatientRepository) {}
+
   async getAllPatients(): Promise<SequelizePatient[]> {
-    return await SequelizePatient.findAll();
+    return this.patientRepository.findAll();
   }
 
   async getPatientById(id: number): Promise<SequelizePatient | null> {
-    return await SequelizePatient.findOne({ where: { id } });
+    return this.patientRepository.getById(id);
   }
 
   async createPatient(data: PatientDto): Promise<SequelizePatient> {
-    return await SequelizePatient.create(data);
+    if (!data) throw new Error("No data provided.");
+
+    const newPatient = await this.patientRepository.create(data);
+    return newPatient;
   }
 
   async updatePatient(
     id: number,
     data: Partial<PatientDto>
   ): Promise<SequelizePatient | null> {
-    const [updatedRows] = await SequelizePatient.update(data, {
-      where: { id },
-    });
+    const [updatedRows] = await this.patientRepository.update(id, data);
     if (updatedRows === 0) return null;
 
-    return await SequelizePatient.findOne({ where: { id } });
+    const updatedPatient = await this.patientRepository.getById(id);
+    return updatedPatient;
   }
 
-  async deletePatient(id: number) {
-    return await SequelizePatient.destroy({ where: { id } });
+  async deletePatient(id: number): Promise<boolean> {
+    const deletedCount = await this.patientRepository.delete(id);
+    return deletedCount > 0;
   }
 }
 

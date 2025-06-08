@@ -1,4 +1,4 @@
 import { CreationAttributes } from "sequelize";
-import SequelizePatient from "../models/patient";
+import SequelizePatient, { PatientCreationAttributes } from "../models/patient";
 
-export type PatientDto = CreationAttributes<SequelizePatient>;
+export type PatientDto = PatientCreationAttributes;

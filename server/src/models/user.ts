@@ -1,5 +1,6 @@
 import {
   AllowNull,
+  AutoIncrement,
   Column,
   DataType,
   Model,
@@ -25,6 +26,7 @@ class SequelizeUser
   implements UserAttributes
 {
   @PrimaryKey
+  @AutoIncrement
   @Column(DataType.INTEGER)
   id!: number;
 

@@ -1,17 +1,21 @@
-import { ScreeningTestDto } from "../dtos/ScreeningTestDto";
+import { ScreeningTestDto } from "../dtos/screeningTestDto";
 import SequelizeScreeningTest from "../models/screeningTest";
 
 class ScreeningTestRepository {
-  async findByPatientId(patientId: number) {
-    return await SequelizeScreeningTest.findAll({ where: { patientId } });
+  async findAllByPatientId(patientId: number) {
+    return SequelizeScreeningTest.findAll({ where: { patientId } });
+  }
+
+  async getById(id: number) {
+    return SequelizeScreeningTest.findOne({ where: { id } });
   }
 
   async create(data: ScreeningTestDto) {
-    return await SequelizeScreeningTest.create(data);
+    return SequelizeScreeningTest.create(data);
   }
 
   async delete(id: number) {
-    return await SequelizeScreeningTest.destroy({ where: { id } });
+    return SequelizeScreeningTest.destroy({ where: { id } });
   }
 }
 
