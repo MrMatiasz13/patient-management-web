@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PatientInfoPanel from "../components/patient-info-panel/PatientInfoPanel";
 import PatientList from "../components/patient-list/PatientList";
-import { Patient } from "../utils/types/patient";
+import { Patient } from "../utils/types/models/patient";
 
 function PatientsScreen() {
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);

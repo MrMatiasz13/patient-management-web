@@ -1,7 +1,7 @@
 import { FaRegClipboard } from "react-icons/fa";
 import { IoDocumentTextOutline, IoOpenOutline, IoAdd } from "react-icons/io5";
 import { GrNotes } from "react-icons/gr";
-import { Patient } from "../../utils/types/patient";
+import { Patient } from "../../utils/types/models/patient";
 import { useRef } from "react";
 import AddConclusionDialog, {
   AddConclusionDialogRef,

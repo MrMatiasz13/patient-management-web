@@ -1,4 +1,4 @@
-import { Patient } from "../../utils/types/patient";
+import { Patient } from "../../utils/types/models/patient";
 import { MdMoreHoriz } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import CardDropDown from "./CardDropDown";

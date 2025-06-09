@@ -1,5 +1,5 @@
 import { FaUser } from "react-icons/fa";
-import { Patient } from "../utils/types/patient";
+import { Patient } from "../utils/types/models/patient";
 
 interface PatientImageProps {
   patient: Patient;

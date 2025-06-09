@@ -1,7 +1,7 @@
 import { forwardRef, Ref, useImperativeHandle, useRef, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { usePatient } from "../../hooks/usePatient";
-import { Patient } from "../../utils/types/patient";
+import { Patient } from "../../utils/types/models/patient";
 
 export type AddPatientDialogRef = {
   open: () => void;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { usePatient } from "../../hooks/usePatient";
-import { Patient } from "../../utils/types/patient";
+import { Patient } from "../../utils/types/models/patient";
 import { calculateAge } from "../../utils/helpers/calculateAge";
 import { InfoField } from "../../components/InfoField";
 import { ExaminationSection } from "../../components/ExaminationSection";
@@ -25,12 +25,15 @@ import {
 } from "../../utils/data/speechOrgansSectionData";
 import { Checkbox } from "../../components/Checkbox";
 import { parafunctions } from "../../utils/data/parafunctionsData";
+import { useScreeningTest } from "../../hooks/useScreeningTest";
+import { CreateScreeningTestDto } from "../../utils/types/models/dtos/createScreeningTestDto";
 
 function KindergartenSheetScreen() {
   const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
   const { getPatientById } = usePatient();
+  const { createScreeningTest, error } = useScreeningTest();
 
   const [patient, setPatient] = useState<Patient | null>(null);
   const todayDate = new Date().toISOString().split("T")[0];
@@ -50,9 +53,48 @@ function KindergartenSheetScreen() {
       const fetchedPatient = await getPatientById(Number(id));
       if (fetchedPatient) setPatient(fetchedPatient);
     };
-
     fetchPatient();
+
+    const allFormLabels = [
+      ...section3yo.items,
+      ...section4yo.items,
+      ...section5yo.items,
+      ...section6yo.items,
+      ...section3yoSpeech.items,
+      ...section4yoSpeech.items,
+      ...section5yoSpeech.items,
+      ...section6yoSpeech.items,
+      ...section3yoSpeechOrgans.items,
+      ...section4yoSpeechOrgans.items,
+      ...section5yoSpeechOrgans.items,
+      ...section6yoSpeechOrgans.items,
+      ...parafunctions,
+    ];
+
+    const initialFormState: Record<string, boolean> = {};
+    allFormLabels.forEach((item) => {
+      initialFormState[item] = false;
+    });
+
+    setFormState(initialFormState);
   }, [id]);
+
+  const handleSave = async () => {
+    const screeningTestData: CreateScreeningTestDto = {
+      patientId: patient!.id,
+      date: todayDate,
+      formState: formState,
+      conclusion: conclusion,
+    };
+
+    await createScreeningTest(screeningTestData);
+    if (!error) {
+      alert("Zapisywanie sie powiodło.");
+      navigate(-1);
+    } else {
+      alert(error);
+    }
+  };
 
   return (
     <div className="flex min-h-screen w-screen justify-center bg-gray-100 overflow-y-auto">
@@ -157,6 +199,7 @@ function KindergartenSheetScreen() {
           <div className="grid grid-cols-4 gap-4 p-2">
             {parafunctions.map((title) => (
               <Checkbox
+                key={title}
                 title={title}
                 checked={formState[title]}
                 onChange={handleCheckboxChange}
@@ -184,7 +227,11 @@ function KindergartenSheetScreen() {
           >
             Anuluj
           </button>
-          <button className="bg-[#007bff] hover:bg-[#0069d9] text-white font-bold py-2 px-6 rounded-xl cursor-pointer">
+          <button
+            onClick={handleSave}
+            disabled={!patient}
+            className="bg-[#007bff] hover:bg-[#0069d9] text-white font-bold py-2 px-6 rounded-xl cursor-pointer"
+          >
             Zapisz
           </button>
         </div>

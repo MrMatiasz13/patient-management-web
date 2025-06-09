@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useLayoutEffect, useState } from "react";
-import { User } from "../utils/types/user";
+import { User } from "../utils/types/models/user";
 import axiosClient from "../api/axiosClient";
 
 type AuthContextType = {

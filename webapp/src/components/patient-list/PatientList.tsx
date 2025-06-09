@@ -4,7 +4,7 @@ import PatientListItem from "./PatientListItem";
 import { useEffect, useRef, useState } from "react";
 import AddPatientDialog, { AddPatientDialogRef } from "./AddPatientDialog";
 import { usePatient } from "../../hooks/usePatient";
-import { Patient } from "../../utils/types/patient";
+import { Patient } from "../../utils/types/models/patient";
 
 interface PatientListProps {
   selectedPatient: Patient | null;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PatientService from "../services/patientService";
 import axiosClient from "../api/axiosClient";
-import { Patient } from "../utils/types/patient";
+import { Patient } from "../utils/types/models/patient";
 import { AxiosError } from "axios";
 
 const patientsService = new PatientService(axiosClient);

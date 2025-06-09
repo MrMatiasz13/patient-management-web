@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance } from "axios";
-import { Patient } from "../utils/types/patient";
+import { Patient } from "../utils/types/models/patient";
 
 class PatientService {
   private axiosClinet: AxiosInstance;
@@ -12,14 +12,8 @@ class PatientService {
     try {
       const response = await this.axiosClinet.get("/api/patients");
       return response.data;
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        console.error("Patient error:", err.response?.data || err.message);
-        return new AxiosError(err.response?.data || err.message);
-      }
-
-      console.error("Unexpected error:", err);
-      return err;
+    } catch (error) {
+      this.handleError(error);
     }
   }
 
@@ -27,14 +21,8 @@ class PatientService {
     try {
       const response = await this.axiosClinet.get(`/api/patient/${id}`);
       return response.data;
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        console.error("Patient error:", err.response?.data || err.message);
-        throw new AxiosError(err.response?.data || err.message);
-      }
-
-      console.error("Unexpected error:", err);
-      throw err;
+    } catch (error) {
+      this.handleError(error);
     }
   }
 
@@ -53,14 +41,8 @@ class PatientService {
       );
       console.log(response.data);
       return response.data;
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        console.error("Patient error:", err.response?.data || err.message);
-        return new AxiosError(err.response?.data || err.message);
-      }
-
-      console.error("Unexpected error:", err);
-      return err;
+    } catch (error) {
+      this.handleError(error);
     }
   }
 
@@ -71,15 +53,19 @@ class PatientService {
       );
       console.log(`Delete response: ${response.data}`);
       return response.data;
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        console.error("Patient error:", err.response?.data || err.message);
-        return new AxiosError(err.response?.data || err.message);
-      }
-
-      console.error("Unexpected error:", err);
-      return err;
+    } catch (error) {
+      this.handleError(error);
     }
+  }
+
+  private handleError(error: unknown): never {
+    if (error instanceof AxiosError) {
+      console.error("Patient error:", error.response?.data || error.message);
+      throw new AxiosError(error.response?.data || error.message);
+    }
+
+    console.error("Unexpected error: ", error);
+    throw new Error("Unexpected error occurred.");
   }
 }
 

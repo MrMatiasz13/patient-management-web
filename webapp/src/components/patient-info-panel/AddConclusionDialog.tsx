@@ -1,7 +1,7 @@
 import { forwardRef, Ref, useImperativeHandle, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router";
-import { Patient } from "../../utils/types/patient";
+import { Patient } from "../../utils/types/models/patient";
 
 export type AddConclusionDialogRef = {
   open: () => void;
