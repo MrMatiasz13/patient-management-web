@@ -15,7 +15,7 @@ class ScreeningTestService {
     const response = await this.axiosClient.get(
       `/api/${patientId}/screening-tests`
     );
-    return response.data;
+    return response.data.screeningTests;
   }
 
   async getScreeningTestById(id: number): Promise<ScreeningTest> {

@@ -11,6 +11,21 @@ export function useScreeningTest() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const getAllScreeningTests = async (patientId: number) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const tests =
+        await screeningTestService.getAllScreeningTestForPatient(patientId);
+      setScreeningTests(tests);
+    } catch (error) {
+      console.error(error);
+      setError(`error: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createScreeningTest = async (screeningTest: CreateScreeningTestDto) => {
     setLoading(true);
     setError(null);
@@ -24,5 +39,11 @@ export function useScreeningTest() {
     }
   };
 
-  return { screeningTests, loading, error, createScreeningTest };
+  return {
+    screeningTests,
+    loading,
+    error,
+    getAllScreeningTests,
+    createScreeningTest,
+  };
 }

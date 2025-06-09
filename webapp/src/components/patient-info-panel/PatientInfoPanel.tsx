@@ -2,11 +2,12 @@ import { FaRegClipboard } from "react-icons/fa";
 import { IoDocumentTextOutline, IoOpenOutline, IoAdd } from "react-icons/io5";
 import { GrNotes } from "react-icons/gr";
 import { Patient } from "../../utils/types/models/patient";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import AddConclusionDialog, {
   AddConclusionDialogRef,
 } from "./AddConclusionDialog";
 import { calculateAge } from "../../utils/helpers/calculateAge";
+import { useScreeningTest } from "../../hooks/useScreeningTest";
 
 interface PatientInfoPanelProps {
   selectedPatient: Patient | null;
@@ -25,10 +26,11 @@ const mockedDocuments = [
 
 function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
   const dialogRef = useRef<AddConclusionDialogRef>(null);
+  const { screeningTests, getAllScreeningTests } = useScreeningTest();
 
-  if (!selectedPatient) {
-    return <></>;
-  }
+  useEffect(() => {
+    if (selectedPatient) getAllScreeningTests(selectedPatient.id);
+  }, [selectedPatient]);
 
   const openAddPatientDialog = () => {
     if (!dialogRef.current) {
@@ -36,6 +38,10 @@ function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
     }
     dialogRef.current.open();
   };
+
+  if (!selectedPatient) {
+    return <></>;
+  }
 
   return (
     <div className="w-2/3 bg-gray-50 h-screen overflow-hidden">
@@ -101,7 +107,7 @@ function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <GrNotes className={styles.sectionIcon} />
-                    <h2 className={styles.sectionTitle}>Wnioski z Badań</h2>
+                    <h2 className={styles.sectionTitle}>Badania</h2>
                   </div>
 
                   <button
@@ -109,12 +115,26 @@ function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
                     onClick={openAddPatientDialog}
                   >
                     <IoAdd className="text-xl" />
-                    Nowy Wniosek
+                    Nowe Badanie
                   </button>
                 </div>
 
-                <div className="flex flex-1 items-center justify-center bg-white p-4 mt-2 shadow-sm rounded-md">
-                  <h2 className="font-semibold text-2xl">Brak Wniosków</h2>
+                <div className="flex flex-1 flex-col items-center bg-white p-4 mt-2 shadow-sm rounded-md overflow-y-auto">
+                  {screeningTests.length === 0 ? (
+                    <h2 className="font-semibold text-2xl flex items-center justify-center h-full">
+                      Brak Wniosków
+                    </h2>
+                  ) : (
+                    screeningTests.map((test) => (
+                      <div
+                        key={test.id}
+                        className="w-full mb-1 p-2 border-t-1 hover:bg-gray-200"
+                      >
+                        <h2 className="text-xl font-semibold">{test.date}</h2>
+                        <p className="text-gray-600">Godzina: 20:09</p>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>
