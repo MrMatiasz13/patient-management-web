@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { usePatient } from "../../hooks/usePatient";
 import { Patient } from "../../utils/types/models/patient";
-import { calculateAge } from "../../utils/helpers/calculateAge";
-import { InfoField } from "../../components/InfoField";
 import { ExaminationSection } from "../../components/ExaminationSection";
 import {
+  ScreeningTestData,
   section3yo,
   section4yo,
   section5yo,
@@ -27,6 +26,8 @@ import { Checkbox } from "../../components/Checkbox";
 import { parafunctions } from "../../utils/data/parafunctionsData";
 import { useScreeningTest } from "../../hooks/useScreeningTest";
 import { CreateScreeningTestDto } from "../../utils/types/models/dtos/createScreeningTestDto";
+import { Heading } from "../../components/Heading";
+import { PatientDataSection } from "../../components/PatientDataSection";
 
 function KindergartenSheetScreen() {
   const navigate = useNavigate();
@@ -38,13 +39,22 @@ function KindergartenSheetScreen() {
   const [patient, setPatient] = useState<Patient | null>(null);
   const todayDate = new Date().toISOString().split("T")[0];
 
-  const [formState, setFormState] = useState<Record<string, boolean>>({});
-  const [conclusion, setConclusion] = useState("");
+  const [formState, setFormState] = useState<
+    Record<string, Record<string, boolean>>
+  >({});
+  const [conclusion, setConclusion] = useState<string>("");
 
-  const handleCheckboxChange = (label: string, checked: boolean) => {
+  const handleCheckboxChange = (
+    section: string,
+    label: string,
+    checked: boolean
+  ) => {
     setFormState((prev) => ({
       ...prev,
-      [label]: checked,
+      [section]: {
+        ...prev[section],
+        [label]: checked,
+      },
     }));
   };
 
@@ -55,39 +65,41 @@ function KindergartenSheetScreen() {
     };
     fetchPatient();
 
-    const allFormLabels = [
-      ...section3yo.items,
-      ...section4yo.items,
-      ...section5yo.items,
-      ...section6yo.items,
-      ...section3yoSpeech.items,
-      ...section4yoSpeech.items,
-      ...section5yoSpeech.items,
-      ...section6yoSpeech.items,
-      ...section3yoSpeechOrgans.items,
-      ...section4yoSpeechOrgans.items,
-      ...section5yoSpeechOrgans.items,
-      ...section6yoSpeechOrgans.items,
-      ...parafunctions,
+    const allSections: ScreeningTestData[] = [
+      section3yo,
+      section4yo,
+      section5yo,
+      section6yo,
+      section3yoSpeech,
+      section4yoSpeech,
+      section5yoSpeech,
+      section6yoSpeech,
+      section3yoSpeechOrgans,
+      section4yoSpeechOrgans,
+      section5yoSpeechOrgans,
+      section6yoSpeechOrgans,
     ];
 
-    const initialFormState: Record<string, boolean> = {};
-    allFormLabels.forEach((item) => {
-      initialFormState[item] = false;
+    const initialFormState: Record<string, Record<string, boolean>> = {};
+    allSections.forEach((item) => {
+      initialFormState[item.title] = {};
+
+      item.items.forEach((field) => {
+        initialFormState[item.title][field] = false;
+      });
     });
 
     setFormState(initialFormState);
   }, [id]);
 
   const handleSave = async () => {
-    const screeningTestData: CreateScreeningTestDto = {
+    const screeningTest: CreateScreeningTestDto = {
       patientId: patient!.id,
       date: todayDate,
       formState: formState,
-      conclusion: conclusion,
     };
 
-    await createScreeningTest(screeningTestData);
+    await createScreeningTest(screeningTest);
     if (!error) {
       alert("Zapisywanie sie powiodło.");
       navigate(-1);
@@ -104,43 +116,41 @@ function KindergartenSheetScreen() {
         </h1>
         <div className="w-[calc(100%+3rem)] h-0.5 bg-gray-600 my-4 -mx-6"></div>
 
-        <div className="w-full mt-8">
-          <Heading title="Informacje" />
-          <div className="grid grid-cols-2 gap-6">
-            <InfoField label="Data Badania" value={todayDate} />
-            <InfoField
-              label="Imię i Nazwisko"
-              value={`${patient?.name} ${patient?.surname}`}
-            />
-            <InfoField
-              label="Wiek"
-              value={`${patient?.birthDate && calculateAge(patient.birthDate)} lat`}
-            />
-            <InfoField label="Data Urodzenia" value={patient?.birthDate} />
-          </div>
-        </div>
+        <PatientDataSection testDate={todayDate} patient={patient!} />
 
         <div className="w-full mt-8">
           <Heading title="Odbiór mowy - badanie rozumienia" />
           <ExaminationSection
             {...section3yo}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="blue"
+            formState={formState["blue"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
           <ExaminationSection
             {...section4yo}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="red"
+            formState={formState["red"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
           <ExaminationSection
             {...section5yo}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="green"
+            formState={formState["green"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
           <ExaminationSection
             {...section6yo}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="orange"
+            formState={formState["orange"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
         </div>
 
@@ -149,24 +159,36 @@ function KindergartenSheetScreen() {
           <ExaminationSection
             {...section3yoSpeech}
             gridCols={3}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="speech3yo"
+            formState={formState["speech3yo"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
           <ExaminationSection
             {...section4yoSpeech}
             gridCols={2}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="speech4yo"
+            formState={formState["speech4yo"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
           <ExaminationSection
             {...section5yoSpeech}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="speech5yo"
+            formState={formState["speech5yo"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
           <ExaminationSection
             {...section6yoSpeech}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="speech6yo"
+            formState={formState["speech6yo"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
         </div>
 
@@ -174,23 +196,35 @@ function KindergartenSheetScreen() {
           <Heading title="Sprawność narządów mowy" />
           <ExaminationSection
             {...section3yoSpeechOrgans}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="organs3yo"
+            formState={formState["organs3yo"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
           <ExaminationSection
             {...section4yoSpeechOrgans}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="organs4yo"
+            formState={formState["organs4yo"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
           <ExaminationSection
             {...section5yoSpeechOrgans}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="organs5yo"
+            formState={formState["organs5yo"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
           <ExaminationSection
             {...section6yoSpeechOrgans}
-            formState={formState}
-            onCheckboxChange={handleCheckboxChange}
+            section="organs6yo"
+            formState={formState["organs6yo"] || {}}
+            onCheckboxChange={(section, label, checked) =>
+              handleCheckboxChange(section, label, checked)
+            }
           />
         </div>
 
@@ -201,8 +235,10 @@ function KindergartenSheetScreen() {
               <Checkbox
                 key={title}
                 title={title}
-                checked={formState[title]}
-                onChange={handleCheckboxChange}
+                checked={formState["parafunctions"]?.[title] || false}
+                onChange={(label, checked) =>
+                  handleCheckboxChange("parafunctions", label, checked)
+                }
               />
             ))}
           </div>
@@ -239,17 +275,5 @@ function KindergartenSheetScreen() {
     </div>
   );
 }
-
-interface HeadingProps {
-  title: string;
-}
-const Heading = ({ title }: HeadingProps) => {
-  return (
-    <>
-      <h2 className="font-bold text-xl">{title}: </h2>
-      <div className="w-[calc(100%+3rem)] h-px bg-gray-400 my-2 -mx-6"></div>
-    </>
-  );
-};
 
 export default KindergartenSheetScreen;

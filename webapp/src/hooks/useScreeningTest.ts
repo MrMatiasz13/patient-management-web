@@ -26,6 +26,19 @@ export function useScreeningTest() {
     }
   };
 
+  const getScreeningTestById = async (id: number) => {
+    setLoading(true);
+    setError(null);
+    try {
+      return await screeningTestService.getScreeningTestById(id);
+    } catch (error) {
+      console.error(error);
+      setError(`error: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createScreeningTest = async (screeningTest: CreateScreeningTestDto) => {
     setLoading(true);
     setError(null);
@@ -44,6 +57,7 @@ export function useScreeningTest() {
     loading,
     error,
     getAllScreeningTests,
+    getScreeningTestById,
     createScreeningTest,
   };
 }

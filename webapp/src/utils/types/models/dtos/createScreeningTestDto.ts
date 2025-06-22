@@ -1,6 +1,5 @@
 export interface CreateScreeningTestDto {
   patientId: number;
   date: string;
-  formState: Record<string, boolean>;
-  conclusion?: string;
+  formState: Record<string, Record<string, boolean>>;
 }

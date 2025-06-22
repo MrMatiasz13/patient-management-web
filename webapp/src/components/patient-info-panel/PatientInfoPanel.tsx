@@ -8,6 +8,7 @@ import AddConclusionDialog, {
 } from "./AddConclusionDialog";
 import { calculateAge } from "../../utils/helpers/calculateAge";
 import { useScreeningTest } from "../../hooks/useScreeningTest";
+import { useNavigate } from "react-router";
 
 interface PatientInfoPanelProps {
   selectedPatient: Patient | null;
@@ -25,6 +26,7 @@ const mockedDocuments = [
 ];
 
 function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
+  const navigate = useNavigate();
   const dialogRef = useRef<AddConclusionDialogRef>(null);
   const { screeningTests, getAllScreeningTests } = useScreeningTest();
 
@@ -129,6 +131,11 @@ function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
                       <div
                         key={test.id}
                         className="w-full mb-1 p-2 border-t-1 hover:bg-gray-200"
+                        onClick={() => {
+                          navigate(
+                            `/patients/${selectedPatient.id}/kindergarten-sheet/results/${test.id}`
+                          );
+                        }}
                       >
                         <h2 className="text-xl font-semibold">{test.date}</h2>
                         <p className="text-gray-600">Godzina: 20:09</p>
