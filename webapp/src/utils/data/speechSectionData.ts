@@ -2,6 +2,7 @@ import { ScreeningTestData } from "./examinationSectionData";
 
 export const section3yoSpeech: ScreeningTestData = {
   title: "Niebieski - 3 lata",
+  section: "speech3yo",
   items: [
     "Koń",
     "Kubek",
@@ -33,6 +34,7 @@ export const section3yoSpeech: ScreeningTestData = {
 
 export const section4yoSpeech: ScreeningTestData = {
   title: "Zielony - 4 lata",
+  section: "speech4yo",
   items: [
     "Sok",
     "Samolot",
@@ -48,6 +50,7 @@ export const section4yoSpeech: ScreeningTestData = {
 
 export const section5yoSpeech: ScreeningTestData = {
   title: "Pomarańczowy - 4 lata",
+  section: "speech5yo",
   items: [
     "Szalik",
     "Szuflada",
@@ -63,6 +66,7 @@ export const section5yoSpeech: ScreeningTestData = {
 
 export const section6yoSpeech: ScreeningTestData = {
   title: "Czerwony - 6 lata",
+  section: "speech6yo",
   items: ["Szalik", "Cytryna", "Róża", "Korale"],
   color: "red",
 };

@@ -74,46 +74,26 @@ function KindergartenSheetScreen() {
 
             <div className="w-full mt-8">
               <Heading title="Odbiór mowy - badanie rozumienia" />
-              <ExaminationSection {...section3yo} section="section3yo" />
-              <ExaminationSection {...section4yo} section="section4yo" />
-              <ExaminationSection {...section5yo} section="section5yo" />
-              <ExaminationSection {...section6yo} section="section6yo" />
+              <ExaminationSection {...section3yo} />
+              <ExaminationSection {...section4yo} />
+              <ExaminationSection {...section5yo} />
+              <ExaminationSection {...section6yo} />
             </div>
 
             <div className="w-full mt-8">
               <Heading title="Nadawanie mowy - wymowa/nazywanie obrazków" />
-              <ExaminationSection
-                {...section3yoSpeech}
-                gridCols={3}
-                section="speech3yo"
-              />
-              <ExaminationSection
-                {...section4yoSpeech}
-                gridCols={2}
-                section="speech4yo"
-              />
-              <ExaminationSection {...section5yoSpeech} section="speech5yo" />
-              <ExaminationSection {...section6yoSpeech} section="speech6yo" />
+              <ExaminationSection {...section3yoSpeech} gridCols={3} />
+              <ExaminationSection {...section4yoSpeech} gridCols={2} />
+              <ExaminationSection {...section5yoSpeech} />
+              <ExaminationSection {...section6yoSpeech} />
             </div>
 
             <div className="w-full mt-8">
               <Heading title="Sprawność narządów mowy" />
-              <ExaminationSection
-                {...section3yoSpeechOrgans}
-                section="organs3yo"
-              />
-              <ExaminationSection
-                {...section4yoSpeechOrgans}
-                section="organs4yo"
-              />
-              <ExaminationSection
-                {...section5yoSpeechOrgans}
-                section="organs5yo"
-              />
-              <ExaminationSection
-                {...section6yoSpeechOrgans}
-                section="organs6yo"
-              />
+              <ExaminationSection {...section3yoSpeechOrgans} />
+              <ExaminationSection {...section4yoSpeechOrgans} />
+              <ExaminationSection {...section5yoSpeechOrgans} />
+              <ExaminationSection {...section6yoSpeechOrgans} />
             </div>
 
             <div className="w-full mt-8">

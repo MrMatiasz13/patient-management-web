@@ -2,18 +2,21 @@ import { ScreeningTestData } from "./examinationSectionData";
 
 export const section3yoSpeechOrgans: ScreeningTestData = {
   title: "Niebieski - 3 lata",
+  section: "organs3yo",
   items: ["Uśmiechnij się", "Poślij buziaczka"],
   color: "blue",
 };
 
 export const section4yoSpeechOrgans: ScreeningTestData = {
   title: "Zielony - 4 lata",
+  section: "organs4yo",
   items: ["Oblijuz otwarte usta", "Klaszcz językiem"],
   color: "green",
 };
 
 export const section5yoSpeechOrgans: ScreeningTestData = {
   title: "Pomarańczowy - 5 lata",
+  section: "organs5yo",
   items: [
     "Połóż język na górną wargę a potem na dolną",
     "Język do kącików ust na przemian",
@@ -23,6 +26,7 @@ export const section5yoSpeechOrgans: ScreeningTestData = {
 
 export const section6yoSpeechOrgans: ScreeningTestData = {
   title: "Czerwony - 6 lata",
+  section: "organs6yo",
   items: [
     "Czubkiem języka dotykaj górnych a potem dolnych zębów",
     "Powiedz 'i' a potem 'u'",
