@@ -1,27 +1,21 @@
+import { useFormContext } from "react-hook-form";
+
 interface CheckboxProps {
-  title: string;
-  checked: boolean;
-  onChange: (title: string, checked: boolean) => void;
+  label: string;
+  section: string;
   size?: number;
 }
 
-export function Checkbox({
-  title,
-  checked,
-  onChange,
-  size = 20,
-}: CheckboxProps) {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(title, event.target.checked);
-  };
+export function Checkbox({ label, section, size = 20 }: CheckboxProps) {
+  const { register, watch } = useFormContext();
 
   return (
     <div className="flex flex-col items-center">
-      <span className="text-center font-semibold mb-2">{title}</span>
+      <span className="text-center font-semibold mb-2">{label}</span>
       <input
         type="checkbox"
-        checked={checked}
-        onChange={handleChange}
+        checked={watch(`sections.${section}.${label}`) || false}
+        {...register(`sections.${section}.${label}`)}
         style={{ width: size, height: size }}
       />
     </div>

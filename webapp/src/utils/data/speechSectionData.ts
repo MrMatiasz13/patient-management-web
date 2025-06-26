@@ -1,6 +1,6 @@
-import { ExaminationSectionProps } from "../../components/ExaminationSection";
+import { ScreeningTestData } from "./examinationSectionData";
 
-export const section3yoSpeech: ExaminationSectionProps = {
+export const section3yoSpeech: ScreeningTestData = {
   title: "Niebieski - 3 lata",
   items: [
     "Koń",
@@ -31,7 +31,7 @@ export const section3yoSpeech: ExaminationSectionProps = {
   color: "blue",
 };
 
-export const section4yoSpeech: ExaminationSectionProps = {
+export const section4yoSpeech: ScreeningTestData = {
   title: "Zielony - 4 lata",
   items: [
     "Sok",
@@ -46,7 +46,7 @@ export const section4yoSpeech: ExaminationSectionProps = {
   color: "green",
 };
 
-export const section5yoSpeech: ExaminationSectionProps = {
+export const section5yoSpeech: ScreeningTestData = {
   title: "Pomarańczowy - 4 lata",
   items: [
     "Szalik",
@@ -61,7 +61,7 @@ export const section5yoSpeech: ExaminationSectionProps = {
   color: "orange",
 };
 
-export const section6yoSpeech: ExaminationSectionProps = {
+export const section6yoSpeech: ScreeningTestData = {
   title: "Czerwony - 6 lata",
   items: ["Szalik", "Cytryna", "Róża", "Korale"],
   color: "red",

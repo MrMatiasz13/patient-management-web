@@ -1,18 +1,18 @@
-import { ExaminationSectionProps } from "../../components/ExaminationSection";
+import { ScreeningTestData } from "./examinationSectionData";
 
-export const section3yoSpeechOrgans: ExaminationSectionProps = {
+export const section3yoSpeechOrgans: ScreeningTestData = {
   title: "Niebieski - 3 lata",
   items: ["Uśmiechnij się", "Poślij buziaczka"],
   color: "blue",
 };
 
-export const section4yoSpeechOrgans: ExaminationSectionProps = {
+export const section4yoSpeechOrgans: ScreeningTestData = {
   title: "Zielony - 4 lata",
   items: ["Oblijuz otwarte usta", "Klaszcz językiem"],
   color: "green",
 };
 
-export const section5yoSpeechOrgans: ExaminationSectionProps = {
+export const section5yoSpeechOrgans: ScreeningTestData = {
   title: "Pomarańczowy - 5 lata",
   items: [
     "Połóż język na górną wargę a potem na dolną",
@@ -21,11 +21,11 @@ export const section5yoSpeechOrgans: ExaminationSectionProps = {
   color: "orange",
 };
 
-export const section6yoSpeechOrgans: ExaminationSectionProps = {
+export const section6yoSpeechOrgans: ScreeningTestData = {
   title: "Czerwony - 6 lata",
   items: [
     "Czubkiem języka dotykaj górnych a potem dolnych zębów",
     "Powiedz 'i' a potem 'u'",
   ],
-  color: "blue",
+  color: "red",
 };

@@ -30,7 +30,8 @@ export function useScreeningTest() {
     setLoading(true);
     setError(null);
     try {
-      return await screeningTestService.getScreeningTestById(id);
+      const response = await screeningTestService.getScreeningTestById(id);
+      return response;
     } catch (error) {
       console.error(error);
       setError(`error: ${error}`);
