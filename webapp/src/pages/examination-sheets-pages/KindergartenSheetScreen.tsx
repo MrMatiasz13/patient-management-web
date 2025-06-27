@@ -26,6 +26,8 @@ import { parafunctions } from "../../utils/data/parafunctionsData";
 import { Heading } from "../../components/Heading";
 import { PatientDataSection } from "../../components/PatientDataSection";
 import { FormProvider, useForm } from "react-hook-form";
+import { useScreeningTest } from "../../hooks/useScreeningTest";
+import { CreateScreeningTestDto } from "../../utils/types/models/dtos/createScreeningTestDto";
 
 type FormValues = {
   sections: Record<string, Record<string, boolean>>;
@@ -37,6 +39,7 @@ function KindergartenSheetScreen() {
 
   const { id } = useParams<{ id: string }>();
   const { getPatientById } = usePatient();
+  const { createScreeningTest, error } = useScreeningTest();
 
   const [patient, setPatient] = useState<Patient | null>(null);
   const todayDate = new Date().toISOString().split("T")[0];
@@ -56,8 +59,25 @@ function KindergartenSheetScreen() {
     fetchPatient();
   }, [id]);
 
-  const handleSubmit = methods.handleSubmit((data) => {
+  const handleSubmit = methods.handleSubmit(async (data) => {
     console.log("Form data: ", data);
+    if (!patient || patient == null) return;
+
+    const screeningTest: CreateScreeningTestDto = {
+      patientId: patient.id,
+      date: todayDate,
+      formState: data.sections,
+      conclusions: data.conclusion,
+    };
+
+    await createScreeningTest(screeningTest);
+    if (error) {
+      alert(`Error: ${error}`);
+      return;
+    } else {
+      alert("Successfully created screening test.");
+      navigate(-1);
+    }
   });
 
   return (
