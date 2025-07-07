@@ -1,9 +1,13 @@
 import { PatientDto } from "../dtos/patientDto";
 import SequelizePatient from "../models/patient";
 import PatientRepository from "../repositories/patientRepository";
+import ScreeningTestService from "./screeningTestService";
 
 class PatientService {
-  constructor(private readonly patientRepository: PatientRepository) {}
+  constructor(
+    private readonly patientRepository: PatientRepository,
+    private readonly screeningTestService: ScreeningTestService
+  ) {}
 
   async getAllPatients(): Promise<SequelizePatient[]> {
     return this.patientRepository.findAll();
@@ -32,6 +36,12 @@ class PatientService {
   }
 
   async deletePatient(id: number): Promise<boolean> {
+    const patientScreeningTests =
+      await this.screeningTestService.getAllScreeningTestsByPatientId(id);
+    await this.screeningTestService.deleteAllPatientScreeningTests(
+      patientScreeningTests
+    );
+
     const deletedCount = await this.patientRepository.delete(id);
     return deletedCount > 0;
   }

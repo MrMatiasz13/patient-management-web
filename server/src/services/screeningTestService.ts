@@ -1,4 +1,5 @@
 import { ScreeningTestDto } from "../dtos/screeningTestDto";
+import SequelizeScreeningTest from "../models/screeningTest";
 import ScreeningTestRepository from "../repositories/screeningTestRepository";
 
 class ScreeningTestService {
@@ -21,6 +22,21 @@ class ScreeningTestService {
 
     const createdTest = await this.screeningTestRepository.create(data);
     return createdTest;
+  }
+
+  async deleteScreeningTestById(id: number): Promise<boolean> {
+    const deletedCount = await this.screeningTestRepository.delete(id);
+    return deletedCount > 0;
+  }
+
+  async deleteAllPatientScreeningTests(
+    screeningTests: SequelizeScreeningTest[]
+  ) {
+    await Promise.all(
+      screeningTests.map((test) => {
+        return this.screeningTestRepository.delete(test.id);
+      })
+    );
   }
 }
 

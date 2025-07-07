@@ -15,11 +15,14 @@ const refreshTokenRepository = new RefreshTokenRepository();
 const screeningTestRepository = new ScreeningTestRepository();
 
 // services
+const screeningTestService = new ScreeningTestService(screeningTestRepository);
 const userService = new UserService(userRepository);
-const patientService = new PatientService(patientRepository);
+const patientService = new PatientService(
+  patientRepository,
+  screeningTestService
+);
 const refreshTokenService = new RefreshTokenService(refreshTokenRepository);
 const authService = new AuthService(userService, refreshTokenService);
-const screeningTestService = new ScreeningTestService(screeningTestRepository);
 
 export {
   userService,
