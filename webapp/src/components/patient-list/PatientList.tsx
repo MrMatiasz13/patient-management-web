@@ -46,8 +46,8 @@ function PatientList({
   };
 
   return (
-    <div className="w-1/3 bg-white border-r-1 border-gray-400 overflow-y-auto">
-      <h2 className="m-4 font-bold text-3xl">Pacjenci</h2>
+    <div className="bg-white">
+      <h2 className="px-4 py-1 font-bold text-3xl">Pacjenci</h2>
       <div className="m-4 relative">
         <input
           className="w-full pl-10 pr-4 py-2 text-xl border-1 border-gray-400 rounded-md placeholder:text-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"

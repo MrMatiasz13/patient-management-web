@@ -2,8 +2,8 @@ import { Patient } from "../../utils/types/models/patient";
 import { MdMoreHoriz } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import CardDropDown from "./CardDropDown";
-import { calculateAge } from "../../utils/helpers/CalculateAge";
 import PatientImage from "../PatientImage";
+import { calculateAge } from "../../utils/helpers/calculateAge";
 
 interface PatientListItemProps extends Patient {
   isSelected: boolean;

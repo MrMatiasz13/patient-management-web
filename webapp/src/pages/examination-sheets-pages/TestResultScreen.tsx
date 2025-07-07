@@ -48,8 +48,6 @@ function TestResultScreen() {
 
   if (!screeningTest || !patient) return <div>Loading...</div>;
 
-  console.log(screeningTest.conclusion);
-
   return (
     <div className="flex min-h-screen w-screen justify-center bg-gray-100 overflow-y-auto">
       <div className="w-[55%] bg-white shadow-md py-8 px-16">
