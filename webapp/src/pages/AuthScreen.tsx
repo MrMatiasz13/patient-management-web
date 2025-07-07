@@ -23,10 +23,10 @@ function AuthScreen() {
   }, [user, token]);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-b from-[#1e3a8a] to-purple-800">
-      <div className="bg-white max-w-lg w-[100%] rounded-lg shadow-lg">
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="bg-white max-w-lg w-[100%] border-1 border-gray-400 rounded-lg">
         <div className="p-4">
-          <h2 className="text-center text-3xl text-purple-800 font-bold my-4">
+          <h2 className="text-center text-3xl text-black font-bold my-4">
             Logowanie
           </h2>
         </div>
@@ -59,7 +59,7 @@ function AuthScreen() {
           <div className="flex justify-end my-4 mx-8">
             <button
               type="button"
-              className="bg-purple-800 hover:bg-purple-950 text-white font-bold py-3 px-6 rounded-sm"
+              className="flex items-center bg-[#007bff] hover:bg-[#0069d9] text-white px-3 py-2 rounded-md cursor-pointer"
               onClick={handleLogin}
             >
               Zaloguj się
@@ -75,7 +75,7 @@ const styles = {
   inputContainer: "flex justify-center relative mb-2 group",
   input:
     "flex-1 bg-gray-200 outline-none rounded-sm mx-8 p-3 pl-11 text-lg placeholder:text-lg",
-  icon: "absolute left-12 top-1/2 transform -translate-y-1/2 text-gray-500 group-focus-within:text-purple-800",
+  icon: "absolute left-12 top-1/2 transform -translate-y-1/2 text-gray-500 group-focus-within:text-[#007bff]",
 };
 
 export default AuthScreen;
