@@ -12,10 +12,10 @@ testRouter
   .route("/api/:patientId/screening-tests")
   .get(verifyToken, getAllScreeningTestsForPatient);
 testRouter
-  .route("/api/screening-tests/:id")
+  .route("/api/screening-test/:id")
   .get(verifyToken, getScreeningTestById);
 testRouter
-  .route("/api/screening/create")
+  .route("/api/screening-test/create")
   .post(verifyToken, createScreeningTest);
 
 export default testRouter;

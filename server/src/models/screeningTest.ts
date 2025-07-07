@@ -1,5 +1,4 @@
 import { Optional } from "sequelize";
-import db from "../database/database.config";
 import {
   AllowNull,
   AutoIncrement,
@@ -14,8 +13,8 @@ interface ScreeningTestAttributes {
   id: number;
   patientId: number;
   date: string;
-  formState: Record<string, boolean>;
-  conclusion?: string;
+  formState: Record<string, Record<string, boolean>>;
+  conclusion: string;
 }
 
 export type ScreeningTestCreationAttributes = Optional<
@@ -40,10 +39,11 @@ class SequelizeScreeningTest extends Model implements ScreeningTestAttributes {
 
   @AllowNull(false)
   @Column(DataType.JSON)
-  formState!: Record<string, boolean>;
+  formState!: Record<string, Record<string, boolean>>;
 
+  @AllowNull(false)
   @Column(DataType.TEXT)
-  conclusion?: string;
+  conclusion!: string;
 }
 
 export default SequelizeScreeningTest;
