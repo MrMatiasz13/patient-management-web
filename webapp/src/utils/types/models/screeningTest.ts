@@ -3,5 +3,5 @@ export interface ScreeningTest {
   patientId: number;
   date: string;
   formState: Record<string, Record<string, boolean>>;
-  conclusion?: string;
+  conclusion: string;
 }

@@ -60,24 +60,23 @@ function KindergartenSheetScreen() {
   }, [id]);
 
   const handleSubmit = methods.handleSubmit(async (data) => {
-    console.log("Form data: ", data);
     if (!patient || patient == null) return;
 
     const screeningTest: CreateScreeningTestDto = {
       patientId: patient.id,
       date: todayDate,
       formState: data.sections,
-      conclusions: data.conclusion,
+      conclusion: data.conclusion,
     };
 
+    console.log("conclusion: ", data.conclusion);
     await createScreeningTest(screeningTest);
     if (error) {
       alert(`Error: ${error}`);
       return;
-    } else {
-      alert("Successfully created screening test.");
-      navigate(-1);
     }
+    alert("Successfully created screening test.");
+    navigate(-1);
   });
 
   return (
@@ -103,7 +102,7 @@ function KindergartenSheetScreen() {
             <div className="w-full mt-8">
               <Heading title="Nadawanie mowy - wymowa/nazywanie obrazków" />
               <ExaminationSection {...section3yoSpeech} gridCols={3} />
-              <ExaminationSection {...section4yoSpeech} gridCols={2} />
+              <ExaminationSection {...section4yoSpeech} />
               <ExaminationSection {...section5yoSpeech} />
               <ExaminationSection {...section6yoSpeech} />
             </div>
@@ -130,7 +129,6 @@ function KindergartenSheetScreen() {
               <textarea
                 className="w-full p-2 rounded-md mt-2 border-gray-400 border-1 min-h-[200px]"
                 placeholder="Zapisz tu wnioski z badania..."
-                defaultValue={""}
                 {...methods.register("conclusion")}
               />
             </div>
