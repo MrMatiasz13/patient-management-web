@@ -13,7 +13,7 @@ class PatientService {
       const response = await this.axiosClinet.get("/api/patients");
       return response.data;
     } catch (error) {
-      this.handleError(error);
+      return [];
     }
   }
 
@@ -61,9 +61,8 @@ class PatientService {
   private handleError(error: unknown): never {
     if (error instanceof AxiosError) {
       console.error("Patient error:", error.response?.data || error.message);
-      throw new AxiosError(error.response?.data || error.message);
+      throw error;
     }
-
     console.error("Unexpected error: ", error);
     throw new Error("Unexpected error occurred.");
   }

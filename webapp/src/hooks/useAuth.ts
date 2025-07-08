@@ -23,8 +23,8 @@ export function useAuth() {
         surename: data.user.surename,
         email: data.user.email,
       };
-      setToken(data.token);
       setUser(user);
+      setToken(data.token);
 
       localStorage.setItem("userId", JSON.stringify(user.id));
     } catch (err) {
@@ -46,8 +46,8 @@ export function useAuth() {
       const userId = Number(localStorage.getItem("userId"));
       await authService.logout(userId);
 
-      localStorage.removeItem("userId");
       setToken(null);
+      localStorage.removeItem("userId");
     } catch (err) {
       if (err instanceof AxiosError) {
         setError(err.message);

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import AddPatientDialog, { AddPatientDialogRef } from "./AddPatientDialog";
 import { usePatient } from "../../hooks/usePatient";
 import { Patient } from "../../utils/types/models/patient";
+import { ClipLoader } from "react-spinners";
 
 interface PatientListProps {
   selectedPatient: Patient | null;
@@ -30,6 +31,8 @@ function PatientList({
     }
     dialogRef.current.open();
   };
+
+  if (!patients) return <ClipLoader></ClipLoader>;
 
   const handleSearch = (patient: Patient) => {
     return search.toLowerCase() === ""
