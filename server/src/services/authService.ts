@@ -18,10 +18,12 @@ class AuthService {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) throw new AuthError("Invalid credentials.");
 
-    await this.refreshTokenService.createRefreshToken(user.id!);
+    const refreshToken = await this.refreshTokenService.createRefreshToken(
+      user.id!
+    );
     const accessToken = await this.generateAccessToken(user.id!);
 
-    return { user, accessToken };
+    return { user, accessToken, refreshToken };
   }
 
   async logout(userId: number) {

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { authService } from "../di";
+import { authService, refreshTokenService } from "../di";
 import asyncHandler from "express-async-handler";
 import { AuthError } from "../utils/errors/authError";
 
@@ -12,7 +12,18 @@ const login = async (req: Request, res: Response) => {
       return;
     }
 
-    const { user, accessToken } = await authService.login(email, password);
+    const { user, accessToken, refreshToken } = await authService.login(
+      email,
+      password
+    );
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false, // dev
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
+    });
+
     res.status(200).json({
       message: "Login successful",
       token: accessToken,
@@ -52,7 +63,9 @@ const logout = async (req: Request, res: Response) => {
 };
 
 const refreshAccessToken = asyncHandler(async (req: Request, res: Response) => {
-  const { userId } = req.body;
+  const refreshToken = req.cookies.refreshToken;
+  const decoded = await refreshTokenService.verifyRefreshToken(refreshToken);
+  const userId = decoded?.userId;
 
   const data = await authService.generateAccessToken(userId);
   const user = {
