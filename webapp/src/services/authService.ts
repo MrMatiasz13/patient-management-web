@@ -38,10 +38,10 @@ class AuthService {
     }
   }
 
-  async refreshToken(userId: number) {
+  async refreshToken() {
     try {
-      const response = await this.axiosClinet.post("/auth/refresh", {
-        userId: userId,
+      const response = await this.axiosClinet.post("/auth/refresh", null, {
+        withCredentials: true,
       });
       return response.data;
     } catch (err) {

@@ -8,7 +8,7 @@ import { useUser } from "./useUser";
 const authService = new AuthService(axiosClient);
 
 export function useAuth() {
-  const { setUser, setToken } = useUser();
+  const { user, setUser, setToken } = useUser();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,8 +25,6 @@ export function useAuth() {
       };
       setUser(user);
       setToken(data.token);
-
-      localStorage.setItem("userId", JSON.stringify(user.id));
     } catch (err) {
       if (err instanceof AxiosError) {
         setError(err.message);
@@ -43,11 +41,9 @@ export function useAuth() {
     setLoading(true);
     setError(null);
     try {
-      const userId = Number(localStorage.getItem("userId"));
-      await authService.logout(userId);
+      await authService.logout(user!.id);
 
       setToken(null);
-      localStorage.removeItem("userId");
     } catch (err) {
       if (err instanceof AxiosError) {
         setError(err.message);
@@ -60,11 +56,11 @@ export function useAuth() {
     }
   };
 
-  const refreshToken = async (userId: number) => {
+  const refreshToken = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await authService.refreshToken(userId);
+      const data = await authService.refreshToken();
       const user: User = {
         id: data.user.id,
         name: data.user.name,
