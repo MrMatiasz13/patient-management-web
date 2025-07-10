@@ -46,6 +46,8 @@ function PatientList({
   const handleDelete = async (patient: Patient) => {
     await deletePatient(patient);
     await getAllPatients();
+
+    setSelectedPatient(null);
   };
 
   return (

@@ -32,6 +32,7 @@ function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
 
   useEffect(() => {
     if (selectedPatient) getAllScreeningTests(selectedPatient.id);
+    console.log(selectedPatient);
   }, [selectedPatient]);
 
   const openAddPatientDialog = () => {
