@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createScreeningTest,
+  deleteScreningTest,
   getAllScreeningTestsForPatient,
   getScreeningTestById,
 } from "../controllers/screeningTestController";
@@ -17,5 +18,8 @@ testRouter
 testRouter
   .route("/api/screening-test/create")
   .post(verifyToken, createScreeningTest);
+testRouter
+  .route("/api/screening-test/delete")
+  .post(verifyToken, deleteScreningTest);
 
 export default testRouter;

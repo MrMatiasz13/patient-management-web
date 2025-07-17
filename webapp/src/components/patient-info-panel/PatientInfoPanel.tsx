@@ -8,7 +8,7 @@ import AddConclusionDialog, {
 } from "./AddConclusionDialog";
 import { calculateAge } from "../../utils/helpers/calculateAge";
 import { useScreeningTest } from "../../hooks/useScreeningTest";
-import { useNavigate } from "react-router";
+import { ScreeningTestList } from "../ScreeningTestList";
 
 interface PatientInfoPanelProps {
   selectedPatient: Patient | null;
@@ -26,9 +26,9 @@ const mockedDocuments = [
 ];
 
 function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
-  const navigate = useNavigate();
   const dialogRef = useRef<AddConclusionDialogRef>(null);
-  const { screeningTests, getAllScreeningTests } = useScreeningTest();
+  const { screeningTests, getAllScreeningTests, deleteScreeningTest } =
+    useScreeningTest();
 
   useEffect(() => {
     if (selectedPatient) getAllScreeningTests(selectedPatient.id);
@@ -44,6 +44,11 @@ function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
   if (!selectedPatient) {
     return <></>;
   }
+
+  const onDelete = async (id: number) => {
+    await deleteScreeningTest(id);
+    getAllScreeningTests(selectedPatient.id);
+  };
 
   return (
     <div className="w-2/3 bg-gray-50 h-screen overflow-hidden">
@@ -120,29 +125,11 @@ function PatientInfoPanel({ selectedPatient }: PatientInfoPanelProps) {
                     Nowe Badanie
                   </button>
                 </div>
-
-                <div className="flex flex-1 flex-col items-center bg-white p-4 mt-2 shadow-sm rounded-md overflow-y-auto">
-                  {screeningTests.length === 0 ? (
-                    <h2 className="font-semibold text-2xl flex items-center justify-center h-full">
-                      Brak Wniosków
-                    </h2>
-                  ) : (
-                    screeningTests.map((test) => (
-                      <div
-                        key={test.id}
-                        className="w-full mb-1 p-2 border-t-1 hover:bg-gray-200"
-                        onClick={() => {
-                          navigate(
-                            `/patients/${selectedPatient.id}/kindergarten-sheet/results/${test.id}`
-                          );
-                        }}
-                      >
-                        <h2 className="text-xl font-semibold">{test.date}</h2>
-                        <p className="text-gray-600">Godzina: 20:09</p>
-                      </div>
-                    ))
-                  )}
-                </div>
+                <ScreeningTestList
+                  tests={screeningTests}
+                  patientId={selectedPatient.id}
+                  onDelete={onDelete}
+                />
               </div>
             </div>
           </div>

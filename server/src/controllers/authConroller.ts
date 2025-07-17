@@ -19,7 +19,7 @@ const login = async (req: Request, res: Response) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false, // dev
+      secure: false, // only for dev
       sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
     });
@@ -64,8 +64,15 @@ const logout = async (req: Request, res: Response) => {
 
 const refreshAccessToken = asyncHandler(async (req: Request, res: Response) => {
   const refreshToken = req.cookies.refreshToken;
+  console.log("refresh token from cookies: ", refreshToken);
+
   const decoded = await refreshTokenService.verifyRefreshToken(refreshToken);
   const userId = decoded?.userId;
+
+  if (!userId) {
+    console.log("UserId is null or undefined: ", userId);
+    res.status(500).json({ error: "UserId cannot be null or undefined" });
+  }
 
   const data = await authService.generateAccessToken(userId);
   const user = {

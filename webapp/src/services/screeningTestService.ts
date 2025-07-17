@@ -32,6 +32,15 @@ class ScreeningTestService {
     );
     return response.data;
   }
+
+  async deleteScreeningTest(screeningTestId: number) {
+    const response = await this.axiosClient.post("/api/screening-test/delete", {
+      id: screeningTestId,
+    });
+
+    console.log(response.data);
+    return response.data;
+  }
 }
 
 export default ScreeningTestService;

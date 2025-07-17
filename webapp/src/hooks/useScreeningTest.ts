@@ -53,6 +53,15 @@ export function useScreeningTest() {
     }
   };
 
+  const deleteScreeningTest = async (screeningTestId: number) => {
+    try {
+      await screeningTestService.deleteScreeningTest(screeningTestId);
+      console.log("Successfuly deleted test");
+    } catch (error) {
+      console.error("Test deleting faild");
+    }
+  };
+
   return {
     screeningTests,
     loading,
@@ -60,5 +69,6 @@ export function useScreeningTest() {
     getAllScreeningTests,
     getScreeningTestById,
     createScreeningTest,
+    deleteScreeningTest,
   };
 }

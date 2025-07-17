@@ -18,6 +18,8 @@ class AuthService {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) throw new AuthError("Invalid credentials.");
 
+    console.log("User Id: ", user.id);
+
     const refreshToken = await this.refreshTokenService.createRefreshToken(
       user.id!
     );

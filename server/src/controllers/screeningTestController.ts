@@ -45,8 +45,23 @@ const createScreeningTest = asyncHandler(
   }
 );
 
+const deleteScreningTest = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.body;
+
+  if (!id) {
+    res.status(400).json({ message: "Screening test id i missing" });
+    return;
+  }
+
+  await screeningTestService.deleteScreeningTestById(Number(id));
+  res.status(201).json({
+    message: "Successfully deleted screening test.",
+  });
+});
+
 export {
   getAllScreeningTestsForPatient,
   getScreeningTestById,
   createScreeningTest,
+  deleteScreningTest,
 };
